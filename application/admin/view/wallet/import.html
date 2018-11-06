@@ -1,0 +1,69 @@
+{extend name="common/world"} {block name="title"}数据导入{/block} {block name="style"}
+<style type="text/css">
+</style>
+{/block} {block name="container"}
+<div class="page">
+	<div class="page-single">
+		<form class="card" method="post" style="max-width: 50rem;" enctype="multipart/form-data">
+			<div class="card-body">
+				<div class="card-title">Excel数据导入</div>
+				<div class="card-subtitle">成功则全部成功，失败则全部失败，失败后只需再次尝试即可</div>
+				<div class="card-subtitle">数值是正数，则会加钱，如果是负数，则会扣钱</div>
+				<div class="card-subtitle">已冻结的账号也会进行赠送。</div>
+				<div class="card-subtitle">请参考下面的格式做Excel表格</div>
+				<div class="card">
+					<table class="table card-table table-vcenter text-nowrap">
+						<tr>
+							<th>username</th>
+							<th>money</th>
+						</tr>
+						<tr>
+							<td>13000000000</td>
+							<td>100</td>
+						</tr>
+						<tr>
+							<td>14000000000</td>
+							<td>-100</td>
+						</tr>
+					</table>
+				</div>
+				<div class="card-subtitle">上例中，130的用户将增加100个货币，140的用户将减少100个货币</div>
+				<div class="card-subtitle">如果140的用户减少100个货币之后是负数，则最终他的钱为0</div>
+            	<div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="excel">
+                        <label class="custom-file-label">选择文件</label>
+                    </div>
+                </div>
+                {notempty name="msg"}
+                	<div class="alert alert-danger">
+					<h1>{$msg}</h1>
+	                {volist name="error" id="item"}
+						<div>{$item}</div>
+	                {/volist}
+	                </div>
+                {/notempty}
+			</div>
+			<div class="card-footer text-right">
+				<button type="submit" class="btn btn-primary">一键导入</button>
+			</div>
+		</form>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+require(['jquery'], function($){
+	$(function(){
+		$('form').on('submit', function(){
+			var files = $('form input[type=file]')[0].files;
+			if (files.length == 0) {
+				toast('很抱歉、请选择Excel文件！');
+				return false;
+			}
+			return true;
+		});
+	});
+});
+</script>
+{/block}

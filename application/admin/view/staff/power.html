@@ -1,0 +1,93 @@
+{extend name="common/world"}
+{block name="title"}权限列表{/block}
+{block name="style"}
+<style>
+.ml0 {
+	font-weight: bold;
+}
+.ml1 {
+	color: #666;
+	margin-left: 4rem;
+}
+.ml2 {
+	color: #999;
+	margin-left: 8rem;
+}
+</style>
+{/block}
+{block name="container"}
+<form method="post">
+	<div class="card">
+		<div class="card-header">
+			<div class="card-title">权限编辑</div>
+			<div class="card-options">
+				<button type="submit" class="btn btn-primary">保存</button>
+			</div>
+		</div>
+		<div class="table-responsive">
+		    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+		        <thead>
+		            <tr>
+		                <th>选择</th>
+		                <th>名称</th>
+		                <th>路径</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		        	{volist name="roles" id="role"}
+		            <tr>
+		                <td>
+		                	<label class="custom-control custom-checkbox custom-control-inline">
+		                		{notempty name="role.checked"}
+	                            	<input type="checkbox" class="custom-control-input" name="roles[]" value="{$role.id}" checked="true" />
+	                            {else /}
+	                            	<input type="checkbox" class="custom-control-input" name="roles[]" value="{$role.id}" />
+	                            {/notempty}
+	                            <span class="custom-control-label"></span>
+	                        </label>
+		                </td>
+		                <td>
+		                	<span class="ml{$role.index-1}">{$role.name}</span>
+		                </td>
+		                <td>{$role.path}</td>
+		            </tr>
+		            {/volist}
+		        </tbody>
+		    </table>
+		</div>
+		<div class="card-footer">
+			<button type="submit" class="btn btn-primary float-right">保存</button>
+		</div>
+	</div>
+</form>
+{/block}
+{block name="script"}
+<script>
+require(['jquery'], function($){
+	$(function(){
+		// 勾选菜单
+		$('tr').on('click', function(){
+			// 勾选当前节点
+			var bool = $(this).find('input[type=checkbox]').prop('checked');
+			$(this).find('input[type=checkbox]').prop('checked', !bool);
+			var base = $(this).find('td').eq(1).find('span').attr('class');
+			// 继续下一个节点
+			$next = $(this).next();
+			if (base && $next.length) {
+				for (var i = 0; i < $('tr').length; i++) {
+					var ml = $next.find('td').eq(1).find('span').attr('class');
+					if (!ml || ml <= base) {
+						break;
+					}
+					$next.find('input[type=checkbox]').prop('checked', !bool);
+					$next = $next.next();
+					if (!$next.length) {
+						break;
+					}
+				}
+			}
+		});
+	});
+});
+</script>
+{/block}

@@ -1,0 +1,108 @@
+{extend name="common/world"}
+{block name="title"}签到有礼{/block}
+{block name="style"}{/block}
+{block name="container"}
+<div class="btn-list mb-3">
+	{if staff('/admin/boss/config') }
+	<a href="#" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-config">配置设置</a>
+	{/if}
+</div>
+<form method="get" class="">
+	<div class="row">
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">用户账号</span>
+				</div>
+				<input type="text" class="form-control" name="username" value="{$Think.get.username}" maxlength="11" />
+			</div>
+		</div>
+		<div class="col-lg-2 mb-3">
+			<button class="btn btn-primary w-100" type="submit">立即查询</button>
+		</div>
+	</div>
+</form>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th>账号</th>
+	                <th>算力</th>
+	                <th>时间</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="users" id="user"}
+	        		<tr>
+		                <td>{$user.username}</td>
+		                <td>{$user.power|money}</td>
+		                <td>{$user.create_at}</td>
+	        		</tr>
+	        	{/volist}
+	        </tbody>
+	    </table>
+	</div>
+	<div class="card-footer">{$users|raw}</div>
+</div>
+<div class="modal fade" id="modal-config" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form method="post" action="/admin/calendar/config">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">签到配置</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-3">
+							<div class="form-group">
+				                <label class="form-label">是否开启</label>
+				                <label class="custom-switch">
+				                	{notempty name="config.enable"}
+			                        	<input type="checkbox" name="enable" class="custom-switch-input" checked="true" />
+			                        	<span class="custom-switch-indicator"></span>
+			                        	<span class="custom-switch-description enable-status">当前开启</span>
+			                        {else /}
+			                        	<input type="checkbox" name="enable" class="custom-switch-input" />
+			                        	<span class="custom-switch-indicator"></span>
+			                        	<span class="custom-switch-description enable-status">当前关闭</span>
+			                        {/notempty}
+		                        </label>
+			                </div>
+						</div>
+					</div>
+                    <div class="form-group">
+                    	<label class="form-label">签到介绍</label>
+                    	<script id="editor" name="content" type="text/plain" style="height: 20rem;">{$config.content|raw|default=""}</script>
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">保存设置</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+require(['jquery', 'ZeroClipboard'], function($, ZeroClipboard){
+	window['ZeroClipboard'] = ZeroClipboard;
+	$(function(){
+		// 实例化编辑器
+		var ue = UE.getEditor('editor');
+		// 开启状态
+		$('input[name=enable]').on('change', function(){
+			var bool = $(this).prop('checked');
+			$('.enable-status').text(bool ? '当前开启' : '当前关闭');
+		});
+	});
+});
+</script>
+{/block}

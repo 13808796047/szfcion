@@ -1,0 +1,96 @@
+{extend name="common/world"}
+{block name="title"}基金日志{/block}
+{block name="style"}{/block}
+{block name="container"}
+<div class="btn-list mb-3">
+	<a href="/admin/fund/index.html" class="btn btn-secondary">持有人</a>
+	<!-- {if staff('/admin/fund/rule') }
+	<a href="/admin/fund/rule.html" class="btn btn-secondary">规则设置</a>
+	{/if}
+	{if staff('/admin/fund/ask') }
+	<a href="/admin/fund/ask.html" class="btn btn-secondary">问答设置</a>
+	{/if} -->
+	{if staff('/admin/fund/notice') }
+	<a href="/admin/fund/notice.html" class="btn btn-secondary">公示管理</a>
+	{/if}
+	{if staff('/admin/fund/logs') }
+	<a href="/admin/fund/logs.html" class="btn btn-primary">基金记录</a>
+	{/if}
+</div>
+<form method="get" class="">
+	<div class="row">
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">用户账号</span>
+				</div>
+				<input type="text" class="form-control" name="username" value="{$Think.get.username}" maxlength="11" />
+			</div>
+		</div>
+		<div class="col-lg-2 mb-3">
+			<button class="btn btn-primary w-100" type="submit">立即查询</button>
+		</div>
+	</div>
+</form>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th>账号</th>
+	                <th>行为</th>
+	                <th>描述</th>
+	                <th>金额</th>
+	                <th>时间</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="logs" id="log"}
+	        		<tr>
+	        			<td>{$log.username}</td>
+	        			<td>
+	        				{switch $log.action}
+	        					{case 1}业绩投入{/case}
+	        					{case 2}自己充值{/case}
+	        					{case 3}帮他人充值{/case}
+	        					{case 6}提供救助{/case}
+	        				{/switch}
+	        			</td>
+	        			<td>
+	        				{notempty name="log.product_title"}{$log.product_title}{/notempty}
+	        				{notempty name="log.notice_username"}{$log.notice_username} {$log.notice_reason}{/notempty}
+	        			</td>
+	        			<td>{$log.money}</td>
+	        			<td>{$log.create_at}</td>
+	        		</tr>
+	        	{/volist}
+	        </tbody>
+	    </table>
+	</div>
+	<div class="card-footer">{$logs|raw}</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+require(['jquery', 'selectize'], function($, selectize){
+	$(function(){
+		// 开启状态
+		$('input[name=enable]').on('change', function(){
+			var bool = $(this).prop('checked');
+			$('.enable-status').text(bool ? '当前开启' : '当前关闭');
+		});
+		// 充值金额
+		$('#input-tags').selectize({
+		    delimiter: ',',
+		    persist: false,
+		    create: function (input) {
+		        return {
+		            value: input,
+		            text: input
+		        }
+		    }
+		});
+	});
+});
+</script>
+{/block}

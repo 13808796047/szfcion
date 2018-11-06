@@ -1,0 +1,113 @@
+{extend name="common/world"}
+{block name="title"}{$config.name|default='签到有礼'}{/block}
+{block name="style"}
+<link rel="stylesheet" href="/static/css/calendar.css" />
+<style>
+.ok {
+    position: relative;
+}
+.ok::before {
+    content: "·";
+    color: #5eba00;
+    font-size: 2rem;
+    line-height: 0;
+    position: absolute;left: 50%;bottom: 30%;
+    margin-left: -3px;
+}
+@keyframes success {
+    0% {
+        opacity: 0;
+        transform: translate3d(0px, -300px, 0px);
+    }
+    30% {
+        opacity: 1;
+        transform: translate3d(0px, 0px, 0px);
+    }
+    70% {
+        opacity: 1;
+        transform: translate3d(0px, 0px, 0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0px, 300px, 0px);
+    }
+}
+.success {
+    position: absolute;left: 50%;top:40%;
+    width: 10rem;height: 5rem;line-height: 5rem;
+    text-align: center;
+    /*border: 1px solid #5eba00;*/
+    box-shadow: 0px 0px 3px #5eba00;
+    background: white;
+    margin: -2.5rem 0 0 -5rem;
+    font-size: 1.5rem;
+    z-index: 10;
+    animation: success 3s both;
+}
+</style>
+{/block}
+{block name="container"}
+<div class="success" hidden>签到成功</div>
+<div class="card card-calendar p-3">
+    <div class="info">
+        {if !empty($continuity) && $continuity > 0 }
+            <span class="float-right text-green">{$continuity}<sub>天</sub></span>
+        {/if}
+        <h1 class="display-3 mb-0 now">-</h1>
+        {notempty name="last_at"}
+        <small class="text-muted d-block">上次签到：{$last_at}</small>
+        {/notempty}
+    </div>
+    <div class="dimmer">
+        <div class="loader"></div>
+        <div class="dimmer-content">
+            <div class="option d-flex bg-blue text-white px-3 py-2 mt-3">
+                <div class="text"><span class="year">-</span>年<span class="month">-</span>月</div>
+                <div class="link ml-auto">
+                    <span class="prev mr-3"><i class="fe fe-chevron-up"></i></span>
+                    <span class="next"><i class="fe fe-chevron-down"></i></span>
+                </div>
+            </div>
+            <div class="days">
+                <table class="table table-calendar mb-0">
+                    <thead>
+                        <tr>
+                            <th>一</th>
+                            <th>二</th>
+                            <th>三</th>
+                            <th>四</th>
+                            <th>五</th>
+                            <th>六</th>
+                            <th>日</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title f1">签到规则</div>
+    </div>
+    <div class="card-body p-3">{$config.content|default=''|raw}</div>
+</div>
+<div class="card card-table">
+    <table class="table table-vcenter mb-0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-right">奖励</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+{/block}
+{block name="script"}
+<script>
+var today = "{$today|default=''}";
+</script>
+<script src="/static/js/calendar.js"></script>
+{/block}

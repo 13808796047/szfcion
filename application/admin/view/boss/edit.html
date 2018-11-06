@@ -1,0 +1,104 @@
+{extend name="common/world"}
+{block name="title"}BOSS{/block}
+{block name="style"}{/block}
+{block name="container"}
+<div class="page">
+	<div class="page-single">
+		<form class="card" method="post" style="max-width: 50rem;" enctype="multipart/form-data">
+			<input type="hidden" name="username" value="{$user.account.username}" />
+			<div class="card-body">
+				<div class="card-title">正在编辑用户【{$user.account.username}】</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-6">
+					    <div class="form-group">
+					        <label class="form-label">用户状态</label>
+					        <select class="form-control custom-select" name="status">
+					        	{volist name="statuses" id="status"}
+					        		{eq name="boss.status" value="$key"}
+					        			<option selected value="{$key}">{$status}</option>
+					        		{else /}
+					        			<option value="{$key}">{$status}</option>
+					        		{/eq}
+					        	{/volist}
+					        </select>
+					    </div>
+					</div>
+					<div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <div class="form-label">用户头像</div>
+                            <div class="custom-file">
+                                <input type="file" accept="image/*" class="custom-file-input" name="avatar" />
+                                <label class="custom-file-label">不选表示不更换</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">真实姓名</label>
+                            <input type="text" class="form-control" name="realname" placeholder="与身份证及支付宝上一致" value="{$user.profile.realname}" />
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">支付宝账号</label>
+                            <input type="tel" class="form-control" name="alipay" placeholder="支付宝账号" value="{$user.profile.alipay}" />
+                        </div>
+                    </div> -->
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">微信账号</label>
+                            <input type="text" class="form-control" name="wechat" placeholder="微信账号" value="{$user.profile.wechat}" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">QQ号码</label>
+                            <input type="tel" class="form-control" name="qq" placeholder="QQ号码" value="{$user.profile.qq}" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="form-label">拥有头衔</label>
+                            <input type="tel" class="form-control" name="title" id="input-tags" value="{$boss.title}" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="form-label">个人优势</label>
+                            <textarea rows="5" class="form-control" name="advantage">{$boss.advantage}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="form-label">背景介绍</label>
+                            <textarea rows="5" class="form-control" name="background">{$boss.background}</textarea>
+                        </div>
+                    </div>
+				</div>
+			</div>
+			<div class="card-footer text-right">
+				<button class="btn btn-primary">提交更改</button>
+			</div>
+		</form>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+require(['jquery', 'selectize'], function($, selectize, ZeroClipboard){
+	$(function(){
+		// 头衔列表
+		$('#input-tags').selectize({
+		    delimiter: ',',
+		    persist: false,
+		    create: function (input) {
+		        return {
+		            value: input,
+		            text: input
+		        }
+		    }
+		});
+	});
+});
+</script>
+{/block}

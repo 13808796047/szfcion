@@ -1,0 +1,459 @@
+{extend name="common/world"}
+{block name="title"}{$config.name|default='BOSS'}{/block}
+{block name="style"}
+<style>
+body {
+    background: url(/static/image/boss/bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: center 60px;
+}
+.go-back {
+	position: absolute;left: 1rem;top: 5rem;z-index: 5;
+	width: 3rem;height: 3rem;line-height: 3rem;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;font-size: 2rem;text-align: center;
+	font-weight: 100;
+}
+.go-back:hover {
+	color: white;text-decoration: none;
+}
+.mp-avatar {
+	position: relative;z-index: 2;
+	margin-top: 5rem;
+	text-align: center;
+}
+.mp-avatar-border {
+	display: inline-block;
+	border-radius: 100%;
+	border: 5px solid rgba(255, 255, 255, 0.4);
+}
+.mp-avatar .avatar-xxxl {
+	width: 6rem;
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 2rem;
+}
+.mp-nickname {
+	text-align: center;
+	position: relative;
+	z-index: 3;
+	margin-top: -1rem;
+}
+.mp-nickname span {
+	background-color: #36428a;
+	padding: .5rem 1.2rem;
+	font-size: .75rem;
+}
+.mp-tag {
+	position: absolute;left:0;top: 70px;width: 100%;height: 200px;
+}
+@-webkit-keyframes mp-tag {
+	0% {
+		transform: scale3d(0, 0, 0);
+	}
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+.mp-tag .tag {
+	position: absolute;
+	-webkit-animation: mp-tag .5s both;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: #fff;
+}
+.mp-tag .tag:nth-child(1) { left: 2rem;top: 5rem; }
+.mp-tag .tag:nth-child(2) { right: 1rem;top: 3rem; -webkit-animation-delay: .2s; }
+.mp-tag .tag:nth-child(3) { left: 1rem;top: 8rem; -webkit-animation-delay: .3s; }
+.mp-tag .tag:nth-child(4) { right: 1rem;top: 7rem; -webkit-animation-delay: .4s; }
+.mp-tag .tag:nth-child(5) { left: 1rem;top: 11rem; -webkit-animation-delay: .5s; }
+.mp-tag .tag:nth-child(6) { right: 1rem;top: 11rem; -webkit-animation-delay: .6s; }
+.mp-tag .tag:nth-child(7) { left: 5rem;top: 14rem; -webkit-animation-delay: .7s; }
+.mp-tag .tag:nth-child(8) { right: 1rem;top: 15rem; -webkit-animation-delay: .8s; }
+.mp-level img {
+	width: 1.3rem;
+}
+.card-header {
+	border-bottom: none;
+}
+.card-header .title {
+	color: #666;
+}
+.card-header .title i {
+	width: 1.5rem;
+	color: #36428a;
+}
+.custom-select {
+	padding: 0.25rem 1.75rem 0.25rem 0.75rem;
+}
+.selectgroup-button {
+    font-size: 0.7rem;
+    line-height: .9rem;
+}
+.mp-avatar-border {
+	position: relative;
+}
+.mp-avatar-border input {
+	position: absolute;left: 0;top: 0;width: 100%;
+	opacity: 0;
+}
+.mp-avatar-border i {
+	font-size: 2rem;
+	color: #eee;
+	text-shadow: 1px 1px 3px #000;
+}
+</style>
+{/block}
+{block name="container"}
+<a class="go-back" href="javascript:window.history.back(-1);"><i class="fe fe-chevron-left"></i></a>
+<div class="mp-avatar">
+	<span class="mp-avatar-border">
+		<span class="avatar avatar-xxxl" style="background-image: url({:avatar($user.profile.avatar)});">
+			{eq name="username" value="$user.account.username"}
+			<i class="fe fe-camera"></i>
+			<input type="file" accept="image/*" name="avatar" class="avatar-file" />
+			{/eq}
+		</span>
+	</span>
+</div>
+<div class="mp-nickname"><span class="badge badge-pill">{$user.profile.realname}</span></div>
+{neq name="username" value="$user.account.username"}
+	<div class="mp-tag tags">
+	{volist name="boss.title|explode=',',###" id="item"}
+	    <span class="tag">{$item}</span>
+	{/volist}
+	</div>
+{/neq}
+<div class="card mt-8">
+	<div class="card-header">
+		<div class="title"><i class="fa fa-ra"></i>等级</div>
+		<div class="card-options mr-1">
+			<span class="mp-level">
+			{if $boss.level == 'lv1'}<i class="mr-1"><img src="/static/image/boss/lv1.png" /></i>白银
+			{elseif $boss.level == 'lv2'}<i class="mr-1"><img src="/static/image/boss/lv2.png" /></i>黄金
+			{elseif $boss.level == 'lv3'}<i class="mr-1"><img src="/static/image/boss/lv3.png" /></i>黑金
+			{/if}
+			</span>
+		</div>
+	</div>
+</div>
+{eq name="username" value="$user.account.username"}
+<div class="card card-titles">
+    <div class="card-header">
+    	<div class="title"><i class="fa fa-mortar-board"></i>头衔(<span class="title-count">0</span>/8)</div>
+    </div>
+    <div class="card-body px-3 pb-3 pt-0">
+        <div class="selectgroup selectgroup-pills">
+            {volist name="config.title|explode=',', ###" id="item"}
+            <label class="selectgroup-item">
+            	{if stripos($boss.title, $item) !== false }
+                	<input type="checkbox" name="title" value="{$item}" class="selectgroup-input" checked="" />
+                {else /}
+                	<input type="checkbox" name="title" value="{$item}" class="selectgroup-input" />
+                {/if}
+                <span class="selectgroup-button">{$item}</span>
+            </label>
+            {/volist}
+        </div>
+    </div>
+</div>
+{/eq}
+<div class="card">
+	<div class="card-header">
+		<div class="title" style="min-width: 60px;"><i class="fa fa-map"></i>地区</div>
+		<div class="card-options mr-1">
+			{eq name="username" value="$user.account.username"}
+				<div class="region ml-auto">
+				    <div class="row gutters-xs">
+				        <div class="col-4">
+				            <select name="province" class="form-control form-control-sm custom-select">
+				                <option value="">省份</option>
+				            </select>
+				        </div>
+				        <div class="col-4">
+				            <select name="city" class="form-control form-control-sm custom-select">
+				                <option value="">市</option>
+				            </select>
+				        </div>
+				        <div class="col-4">
+				            <select name="county" class="form-control form-control-sm custom-select">
+				                <option value="">区县</option>
+				            </select>
+				        </div>
+				    </div>
+				</div>
+			{else /}
+				<span>{$region.province_name}</span>
+			{/eq}
+		</div>
+	</div>
+</div>
+<div class="card">
+	<div class="card-header">
+		<div class="title"><i class="fa fa-weixin"></i>微信</div>
+		<div class="card-options mr-1">
+			{eq name="username" value="$user.account.username"}
+				<div class="input-group input-group-sm">
+					<input type="text" class="form-control" name="wechat" value="{$user.profile.wechat}" placeholder="微信账号" />
+				</div>
+			{else /}
+				<span>{$user.profile.wechat}</span>
+			{/eq}
+		</div>
+	</div>
+</div>
+<div class="card">
+	<div class="card-header">
+		<div class="title"><i class="fa fa-qq"></i>QQ</div>
+		<div class="card-options mr-1">
+			{eq name="username" value="$user.account.username"}
+				<div class="input-group input-group-sm">
+					<input type="text" class="form-control" name="qq" value="{$user.profile.qq}" placeholder="QQ号码" />
+				</div>
+			{else /}
+				<span>{$user.profile.qq}</span>
+			{/eq}
+		</div>
+	</div>
+</div>
+<div class="card">
+	<div class="card-header">
+		<div class="title"><i class="fa fa-thumbs-up"></i>优势</div>
+	</div>
+	<div class="card-body pt-0">
+		{eq name="username" value="$user.account.username"}
+			<textarea name="advantage" cols="30" rows="5" class="form-control">{$boss.advantage}</textarea>
+		{else /}
+			{$boss.advantage|default='空空如也'}
+		{/eq}
+	</div>
+</div>
+<div class="card">
+	<div class="card-header">
+		<div class="title"><i class="fa fa-user"></i>背景</div>
+	</div>
+	<div class="card-body pt-0">
+		{eq name="username" value="$user.account.username"}
+			<textarea name="background" cols="30" rows="5" class="form-control">{$boss.background}</textarea>
+		{else /}
+			{$boss.background|default='空空如也'}
+		{/eq}
+	</div>
+</div>
+{eq name="username" value="$user.account.username"}
+	<button class="btn btn-facebook btn-block btn-profile mb-3">更新资料</button>
+{/eq}
+{/block}
+{block name="script"}
+<script type="text/javascript">
+var myProvince = '{$region.province}', myCity = '{$region.city}', myCityInit = false, myCounty = '{$region.code}', myCountyInit = false;
+require(['core', 'jquery'], function(core, $){
+	// 页面载入
+	$(function(){
+		// 查询市
+		var getCity = function(code){
+		    if (!code) {
+		        $('select[name=city] option:gt(0)').remove();
+		        $('select[name=county] option:gt(0)').remove();
+		        return true;
+		    }
+		    ajax(api.service.region, {type: 2, code: code}, function(res){
+		        if (res.code == 200) {
+		            var html = ''
+		            for (var i = 0; i < res.data.length; i++) {
+		                var item = res.data[i];
+		                if (!myCityInit && myCity == item.code) {
+		                	html += '<option value="' + item.code + '" selected="true">' + item.name + '</option>';
+		                } else {
+		                	html += '<option value="' + item.code + '">' + item.name + '</option>';
+		                }
+		            }
+		            $('select[name=city] option:gt(0)').remove();
+		            $('select[name=county] option:gt(0)').remove();
+		            $('select[name=city]').append(html);
+		            if (!res.data.length) {
+		            	if (!myCityInit) {
+		            		getCounty(code);
+		            		myCityInit = true;
+		            	} else {
+		                	getCounty(code);
+		            	}
+		            } else {
+		            	if (!myCityInit) {
+		            		getCounty(myCity);
+		            		myCityInit = true;
+		            	}
+		            }
+		        } else {
+		            toast(res.message);
+		        }
+		    });
+		}
+		// 查询区
+		var getCounty = function(code){
+		    if (!code) {
+		        $('select[name=county] option:gt(0)').remove();
+		        return true;
+		    }
+		    var area = $('select[name=city] option').length <= 1;
+		    ajax(api.service.region, {type: 3, code: code, area: area}, function(res){
+		        if (res.code == 200) {
+		            var html = ''
+		            for (var i = 0; i < res.data.length; i++) {
+		                var item = res.data[i];
+		                if (!myCountyInit && myCounty == item.code) {
+		                	html += '<option value="' + item.code + '" selected="true">' + item.name + '</option>';
+		                	myCountyInit = true;
+		                } else {
+		                	html += '<option value="' + item.code + '">' + item.name + '</option>';
+		                }
+		            }
+		            $('select[name=county] option:gt(0)').remove();
+		            $('select[name=county]').append(html);
+		        } else {
+		            toast(res.message);
+		        }
+		    });
+		}
+		// 头像
+        $('.avatar').on('change', 'input', function(){
+            var files = $(this)[0].files;
+            if (files.length > 0) {
+                if (typeof FileReader != 'undefined') {
+                    var file = files[0];
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    var image = $(this).parent();
+                    reader.onload = function(){
+                        image.css('background-image', 'url(' + this.result + ')');
+                    }
+                }
+            }
+        });
+		// 我的头衔
+		var title = '{$boss.title|default=''}'.split(',');
+		$('.title-count').text(title.length);
+		// 查询省
+		ajax(api.service.region, {type: 1}, function(res){
+		    if (res.code == 200) {
+		        var html = ''
+		        for (var i = 0; i < res.data.length; i++) {
+		            var item = res.data[i];
+		            if (item.code == myProvince) {
+		            	html += '<option value="' + item.code + '" selected="true">' + item.name + '</option>';
+		            } else {
+		            	html += '<option value="' + item.code + '">' + item.name + '</option>';
+		            }
+		        }
+		        $('select[name=province]').html(html);
+		        if (myProvince) {
+		        	getCity(myProvince);
+		        } else {
+		        	getCounty(110000);
+		        }
+		    } else {
+		        toast(res.message);
+		    }
+		});
+		// 选择省
+		$('select[name=province]').on('change', function(){
+		    getCity(parseInt($(this).val(), 10));
+		});
+		// 选择市
+		$('select[name=city]').on('change', function(){
+		    getCounty(parseInt($(this).val(), 10));
+		});
+        // 头衔
+        $('input[name=title]').on('change', function(){
+            var bool = $(this).prop('checked');
+            if (bool) {
+                title.push($(this).val());
+            } else {
+                for (var i = 0; i < title.length; i++) {
+                    if (title[i] == $(this).val()) {
+                        title.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+            $('.title-count').text(title.length);
+        });
+        $('.selectgroup-button').on('click', function(ev){
+            if (!$(this).prev().prop('checked')) {
+                if (title.length == 8) {
+                    ev.preventDefault();
+                    return false;
+                }
+            }
+        });
+        // 提交
+        $('.btn-profile').on('click', function(){
+            // 等待
+            if ($(this).hasClass('btn-loading')) {
+                return false;
+            }
+            // 要提交的参数
+            var param = {};
+            // 获取头像
+            if ($('.avatar input')[0].files.length != 0) {
+                param.avatar = $('.avatar input')[0].files[0];
+            }
+            // 获取地区
+            var region = $('select[name=county]').val();
+            if (!region || region == '') {
+                toast('很抱歉、请选择地区！');
+                return false;
+            }
+            param.region = region;
+            // 获取微信
+            var wechat = $('input[name=wechat]').val();
+            if (!wechat || wechat == '') {
+				toast('很抱歉、请填写微信！');
+                return false;
+            }
+            param.wechat = wechat;
+            // 获取QQ
+            var qq = $('input[name=qq]').val();
+            if (!qq || qq == '') {
+				toast('很抱歉、请填写QQ！');
+                return false;
+            }
+            param.qq = qq;
+            // 获取头衔
+            if (title.length == 0) {
+                toast('很抱歉、请选择头衔！');
+                return false;
+            }
+            param.title = title.join(',');
+            // 获取优势
+            var advantage = $('textarea[name=advantage]').val();
+            if (!advantage || advantage == '') {
+				toast('很抱歉、请填写优势！');
+                return false;
+            }
+            param.advantage = advantage;
+            // 获取背景
+            var background = $('textarea[name=background]').val();
+            if (!background || background == '') {
+				toast('很抱歉、请填写背景！');
+                return false;
+            }
+            param.background = background;
+
+            $(this).addClass('btn-loading');
+            // 提交数据
+            ajax(api.boss.profile, param, function(res){
+                $('.btn-profile').removeClass('btn-loading');
+                if (res.code == 200) {
+                    toast(res.message, function(){
+                        window.location.reload();
+                    });
+                } else {
+                    toast(res.message);
+                }
+            }, 'file');
+            return false;
+        });
+	});
+});
+</script>
+{/block}

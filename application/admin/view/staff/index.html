@@ -1,0 +1,117 @@
+{extend name="common/world"}
+{block name="title"}管理员列表{/block}
+{block name="style"}{/block}
+{block name="container"}
+<div class="btn-list">
+	<button class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-added">添加管理员</button>
+</div>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th>账号</th>
+	                <th>状态</th>
+	                <th>IP</th>
+	                <th>最后登录</th>
+	                <th class="text-center">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="accounts" id="ac"}
+	            <tr>
+	                <td>{$ac.username}</td>
+	                <td>
+	                	{switch $ac.status}
+	                		{case 1}<span class="status-icon bg-success"></span>正常{/case}
+	                		{default /}
+                                <span class="status-icon bg-danger"></span>停用
+	                    {/switch}
+	                </td>
+	                <td>{$ac.ip}</td>
+	                <td>{$ac.login_at}</td>
+	                <td class="text-center">
+	                	{eq name="ac.status" value="1"}
+	                		<a href="/admin/staff/frozen?id={$ac.id}" class="btn btn-danger btn-sm">冻结</a>
+	                	{else /}
+	                		<a href="/admin/staff/unfrozen?id={$ac.id}" class="btn btn-secondary btn-sm">解冻</a>
+	                	{/eq}
+	                	<a class="btn btn-secondary btn-sm btn-go-edit" id="{$ac.id}" username="{$ac.username}">编辑</a>
+	                	<a href="/admin/staff/power.html?id={$ac.id}" class="btn btn-info btn-sm">权限</a>
+	                </td>
+	            </tr>
+	            {/volist}
+	        </tbody>
+	    </table>
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modal-added" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form action="/admin/staff/create" method="post">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">添加管理员</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="form-label">登录账号</label>
+						<input type="text" name="username" class="form-control" placeholder="管理员的账号" maxlength="30" />
+					</div>
+					<div class="form-group">
+						<label class="form-label">登录密码</label>
+						<input type="password" name="password" class="form-control" placeholder="管理员的密码" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">确定添加</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modal-upded" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form action="/admin/staff/update" method="post">
+				<input type="hidden" name="id" value="" />
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">修改管理员</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="form-label">登录账号</label>
+						<input type="text" name="username" class="form-control" placeholder="管理员的账号" maxlength="30" />
+					</div>
+					<div class="form-group">
+						<label class="form-label">登录密码</label>
+						<input type="password" name="password" class="form-control" placeholder="管理员的密码" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">提交修改</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+require(['jquery'], function($){
+	$(function(){
+		// 编辑账号
+		$('.btn-go-edit').on('click', function(){
+			$('#modal-upded input[name=id]').val($(this).attr('id'));
+			$('#modal-upded input[name=username]').val($(this).attr('username'));
+			$('#modal-upded').modal();
+		});
+	});
+});
+</script>
+{/block}

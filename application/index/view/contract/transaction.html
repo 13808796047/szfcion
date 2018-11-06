@@ -1,0 +1,203 @@
+{extend name="common/world"}
+{block name="title"}{$contract.title}{/block}
+{block name="style"}
+<link rel="stylesheet" href="/static/css/transaction.css" />
+<style>
+</style>
+{/block}
+{block name="container"}
+<div class="card card-message">
+    <div class="card-header">
+        <div class="card-title f1">
+            <div class="d-flex align-items-center">
+                <span class="tag"><span class="text-truncate" style="max-width: 9rem;">{$contract.title}</span><span class="tag-addon tag-blue tag-status">-</span></span>
+            </div>
+        </div>
+        <div class="card-options pr-2">
+            <a href="#"><i class="fe fe-help-circle" style="vertical-align: baseline;"></i></a>
+            <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize" style="vertical-align: baseline;"></i></a>
+        </div>
+    </div>
+    <div class="card-body card-frame p-3 o-auto">
+        <div class="dimmer">
+            <div class="loader"></div>
+            <div class="dimmer-content chat-content"></div>
+        </div>
+    </div>
+    <div class="card-footer chat-option">
+        <div hidden class="text-muted small tips">友情提示：被成功投诉的一方将遭到惩罚！</div>
+        <button hidden class="btn btn-secondary btn-apply" data-option="2" data-type="modal" data-target="#modal-apply">申请交割</button>
+        <button hidden class="btn btn-secondary btn-delivery" data-option="3" data-type="modal" data-target="#modal-deliver">立即发货</button>
+        <button hidden class="btn btn-secondary btn-confirm" data-option="8">确认收货</button>
+        <button hidden class="btn btn-secondary btn-apply-return" data-option="4">申请退货</button>
+        <button hidden class="btn btn-secondary btn-agree-return" data-option="5" data-type="modal" data-target="#modal-return">同意退货</button>
+        <button hidden class="btn btn-secondary btn-refuse-return" data-option="10">拒绝退货</button>
+        <button hidden class="btn btn-secondary btn-into-return" data-option="11" data-type="modal" data-target="#modal-into">立即退货</button>
+        <button hidden class="btn btn-secondary btn-confirm-return" data-option="6">退货签收</button>
+        <button hidden class="btn btn-secondary btn-text" data-option="12" data-type="modal" data-target="#modal-text">发送文字</button>
+        <button hidden class="btn btn-secondary btn-image" data-option="11" data-type="image">发送图片<input type="file" accept="image/*" /></button>
+        <button hidden class="btn btn-secondary btn-report" data-option="9">投诉举报</button>
+        <button hidden class="btn btn-secondary btn-quit" data-option="0">退出交易</button>
+        <span hidden class="float-right mt-2 count-down small"><i class="fe fe-clock" style="vertical-align:-1px"></i> <span class="count-down-time"></span>后可<span class="count-down-label">退出交易</span></span>
+        <button hidden class="btn btn-secondary btn-cancel" data-option="0">取消订单</button>
+    </div>
+</div>
+<div class="modal fade" id="modal-apply" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: -10%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">申请交割</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">联系号码</label>
+                            <input type="tel" name="mobile" class="form-control" maxlength="11" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">联系人姓名</label>
+                            <input type="text" name="nickname" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">收货地址</label>
+                    <textarea name="address" cols="30" rows="2" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">备注信息</label>
+                    <textarea name="remark" cols="30" rows="2" class="form-control"></textarea>
+                </div>
+                <div class="form-group mb-0">
+                    <label class="form-label">安全密码</label>
+                    <input type="password" name="safeword" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-apply-post">提交申请</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-deliver" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: -10%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">物流信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">物流公司</label>
+                    <input type="text" name="company" class="form-control" placeholder="例如：顺丰快递" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">物流单号</label>
+                    <input type="text" name="code" class="form-control" placeholder="例如：123456789" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-delivery-post">确认发货</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-return" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: -10%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">退货地址</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">联系号码</label>
+                            <input type="tel" name="mobile" class="form-control" maxlength="11" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">联系人姓名</label>
+                            <input type="text" name="nickname" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">退货地址</label>
+                    <textarea name="address" cols="30" rows="2" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">备注信息</label>
+                    <textarea name="remark" cols="30" rows="2" class="form-control"></textarea>
+                </div>
+                <div class="form-group mb-0">
+                    <label class="form-label">安全密码</label>
+                    <input type="password" name="safeword" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-return-post">确认提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-into" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: -10%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">物流信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">物流公司</label>
+                    <input type="text" name="company" class="form-control" placeholder="例如：顺丰快递" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">物流单号</label>
+                    <input type="text" name="code" class="form-control" placeholder="例如：123456789" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-into-post">确认退货</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-text" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="margin-top: -10%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">文字内容</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-0">
+                    <label class="form-label">输入您想说的话</label>
+                    <textarea name="content" cols="30" rows="5" class="form-control" placeholder="简单、直接、明了"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-text-post">确认发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+var id = '{$Think.get.id}';
+</script>
+<script type="text/javascript" src="/static/js/ct_transaction.js?2"></script>
+{/block}

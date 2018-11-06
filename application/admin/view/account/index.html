@@ -1,0 +1,226 @@
+{extend name="common/world"}
+{block name="title"}用户列表{/block}
+{block name="style"}{/block}
+{block name="container"}
+<form method="get" class="">
+	<div class="row">
+		<div class="col-md-6 col-lg-2 mb-3">
+			<select class="form-control custom-select" name="type">
+				<option value="-1">全部类型</option>
+				{volist name="Think.config.hello.level" id="item"}
+					{if is_null($Think.get.type)}
+						<option value="{$key}">{$item.name}</option>
+					{else /}
+						{eq name="Think.get.type" value="$key"}
+							<option value="{$key}" selected="true">{$item.name}</option>
+						{else /}
+							<option value="{$key}">{$item.name}</option>
+						{/eq}
+					{/if}
+				{/volist}
+		    </select>
+	    </div>
+		<div class="col-md-6 col-lg-2 mb-3">
+			<select class="form-control custom-select" name="status">
+				{if $Think.get.status == 1}
+				<option value="-1">全部状态</option>
+				<option selected="" value="1">正常</option>
+				<option value="0">冻结</option>
+				{elseif !is_null($Think.get.status) && $Think.get.status == 0 /}
+				<option value="-1">全部状态</option>
+				<option value="1">正常</option>
+				<option selected="" value="0">冻结</option>
+				{else /}
+				<option value="-1">全部状态</option>
+				<option value="1">正常</option>
+				<option value="0">冻结</option>
+				{/if}
+		    </select>
+	    </div>
+	    <div class="col-md-6 col-lg-2 mb-3">
+		    <select class="form-control custom-select" name="authen">
+		    	{if !is_null($Think.get.authen) && $Think.get.authen == 0 }
+				<option value="-1">不区分实名</option>
+				<option value="0" selected="">未申请</option>
+				<option value="1">已通过</option>
+				<option value="2">待审核</option>
+				<option value="3">被拒绝</option>
+				{elseif $Think.get.authen == 1 /}
+				<option value="-1">不区分实名</option>
+				<option value="0">未申请</option>
+				<option value="1" selected="">已通过</option>
+				<option value="2">待审核</option>
+				<option value="3">被拒绝</option>
+				{elseif $Think.get.authen == 2 /}
+				<option value="-1">不区分实名</option>
+				<option value="0">未申请</option>
+				<option value="1">已通过</option>
+				<option value="2" selected="">待审核</option>
+				<option value="3">被拒绝</option>
+				{elseif $Think.get.authen == 3 /}
+				<option value="-1">不区分实名</option>
+				<option value="0">未申请</option>
+				<option value="1">已通过</option>
+				<option value="2">待审核</option>
+				<option value="3" selected="">被拒绝</option>
+				{else /}
+				<option value="-1">不区分实名</option>
+				<option value="0">未申请</option>
+				<option value="1">已通过</option>
+				<option value="2">待审核</option>
+				<option value="3">被拒绝</option>
+				{/if}
+		    </select>
+	    </div>
+	    <div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">用户账号</span>
+				</div>
+				<input type="text" class="form-control" name="username" value="{$Think.get.username}" />
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">上级账号</span>
+				</div>
+				<input type="text" class="form-control" name="inviter" value="{$Think.get.inviter}" />
+			</div>
+		</div>
+	    <div class="col-md-6 col-lg-4 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<select class="custom-select input-group-text" name="numberField">
+						{volist name="fields" id="field"}
+							{eq name="Think.get.numberField" value="$key"}
+								<option selected="true" value="{$key}">{$field}</option>
+							{else /}
+								<option value="{$key}">{$field}</option>
+							{/eq}
+						{/volist}
+				    </select>
+				</div>
+				<select class="custom-select input-group-text" name="numberOperator">
+					{switch name="Think.get.numberOperator"}
+						{case 2}
+							<option value="1">大于</option>
+							<option value="2" selected="true">等于</option>
+							<option value="3">小于</option>
+						{/case}
+						{case 3}
+							<option value="1">大于</option>
+							<option value="2">等于</option>
+							<option value="3" selected="true">小于</option>
+						{/case}
+						{default /}
+							<option value="1">大于</option>
+							<option value="2">等于</option>
+							<option value="3">小于</option>
+					{/switch}
+			    </select>
+				<input type="text" class="form-control" aria-label="Text input with dropdown button" name="numberValue" value="{$Think.get.numberValue}" />
+			</div>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">排列顺序</span>
+				</div>
+				<select class="custom-select input-group-text" name="sortField">
+					{volist name="fields" id="field"}
+						{eq name="Think.get.sortField" value="$key"}
+							<option selected="true" value="{$key}">按{$field}</option>
+						{else /}
+							<option value="{$key}">按{$field}</option>
+						{/eq}
+					{/volist}
+			    </select>
+			    <select class="custom-select input-group-text" name="sortType">
+			    	{eq name="Think.get.sortType" value="asc"}
+			    		<option value="desc">降序</option>
+			    		<option value="asc" selected="true">升序</option>
+			    	{else /}
+			    		<option value="desc">降序</option>
+			    		<option value="asc">升序</option>
+			    	{/eq}
+			    </select>
+			</div>
+		</div>
+		<div class="col-lg-2 mb-3">
+			<button class="btn btn-primary w-100" type="submit">立即查询</button>
+		</div>
+	</div>
+</form>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th class="text-center w-1"><i class="icon-people"></i></th>
+	                <th>用户</th>
+	                <th>账号</th>
+	                <th>类型</th>
+	                <th>状态</th>
+	                <th>实名</th>
+	                <th>{$Think.config.hello.currencys.8.name}</th>
+	                <th>{$Think.config.hello.currencys.1.name}</th>
+	                <th>{$Think.config.hello.currencys.2.name}</th>
+	                <th>{$Think.config.hello.currencys.3.name}</th>
+	                <th>{$Think.config.hello.currencys.4.name}</th>
+	                <th class="text-center">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="users" id="user"}
+	            <tr>
+	                <td class="text-center">
+	                    <div class="avatar d-block" style="background-image: url({:avatar($user.avatar, $user.idcard)})"></div>
+	                </td>
+	                <td>
+	                    <div>{$user.nickname}</div>
+	                    <div class="small text-muted">{$user.create_at}</div>
+	                </td>
+	                <td>
+	                	<div>{$user.username}</div>
+	                	<div class="small text-muted">By: {$user.inviter}</div>
+	                </td>
+	                <td>{$Think.config.hello.level[$user.type]['name']}</td>
+	                <td>
+	                	{eq name="user.status" value="1"}
+	                    <span class="status-icon bg-success"></span>正常
+	                    {else /}
+	                    <span class="status-icon bg-danger"></span>冻结
+	                    {/eq}
+	                </td>
+	                <td>
+	                	{switch $user.authen}
+	                		{case 1}<span class="status-icon bg-success"></span>已实名{/case}
+	                		{case 2}<span class="status-icon bg-warning"></span>待审核{/case}
+	                		{case 3}<span class="status-icon bg-red"></span>被拒绝{/case}
+	                		{default /}
+                                <span class="status-icon bg-secondary"></span>未实名
+	                    {/switch}
+	                </td>
+	                <td>{$user.rmb|money}</td>
+	                <td>{$user.money|money}</td>
+	                <td>{$user.deposit|money}</td>
+	                <td>{$user.score|money}</td>
+	                <td>{$user.score_deposit|money}</td>
+	                <td class="text-center">
+	                	{if staff('/admin/account/edit') }
+	                    <a href="/admin/account/edit.html?username={$user.username}" class="icon"><i class="fe fe-edit"></i></a>
+	                    {/if}
+	                    {if staff('/admin/account/simulate') }
+	                    <a href="/admin/account/simulate.html?username={$user.username}" target="_blank" class="icon"><i class="fe fe-log-in ml-2"></i></a>
+	                    {/if}
+	                </td>
+	            </tr>
+	            {/volist}
+	        </tbody>
+	    </table>
+	</div>
+	<div class="card-footer">{$users|raw}</div>
+</div>
+{/block}
+{block name="script"} {/block}

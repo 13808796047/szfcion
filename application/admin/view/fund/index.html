@@ -1,0 +1,166 @@
+{extend name="common/world"}
+{block name="title"}互助基金{/block}
+{block name="style"}{/block}
+{block name="container"}
+<div class="btn-list mb-3">
+	<a href="/admin/fund/index.html" class="btn btn-primary">持有人</a>
+	<!-- {if staff('/admin/fund/rule') }
+	<a href="/admin/fund/rule.html" class="btn btn-secondary">规则设置</a>
+	{/if}
+	{if staff('/admin/fund/ask') }
+	<a href="/admin/fund/ask.html" class="btn btn-secondary">问答设置</a>
+	{/if} -->
+	{if staff('/admin/fund/notice') }
+	<a href="/admin/fund/notice.html" class="btn btn-secondary">公示管理</a>
+	{/if}
+	{if staff('/admin/fund/logs') }
+	<a href="/admin/fund/logs.html" class="btn btn-secondary">基金记录</a>
+	{/if}
+	{if staff('/admin/fund/config') }
+	<a href="#" class="btn btn-success float-right" data-toggle="modal" data-target="#modal-config">配置设置</a>
+	{/if}
+</div>
+<form method="get" class="">
+	<div class="row">
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">用户账号</span>
+				</div>
+				<input type="text" class="form-control" name="username" value="{$Think.get.username}" maxlength="11" />
+			</div>
+		</div>
+		<div class="col-lg-2 mb-3">
+			<button class="btn btn-primary w-100" type="submit">立即查询</button>
+		</div>
+	</div>
+</form>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th>账号</th>
+	                <th>金额</th>
+	                <th>生效时间</th>
+	                <th>加入时间</th>
+	                <th>更新时间</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="users" id="user"}
+	        		<tr>
+	        			<td>
+	        				{eq name="user.username" value="00000000000"}
+	        					<span class="tag tag-info mr-2">官方</span>{$user.username}
+	        				{else /}
+	        					{$user.username}
+	        				{/eq}
+	        			</td>
+	        			<td>{$user.money}</td>
+	        			<td>{$user.expire_at}</td>
+	        			<td>{$user.create_at}</td>
+	        			<td>{$user.update_at}</td>
+	        		</tr>
+	        	{/volist}
+	        </tbody>
+	    </table>
+	</div>
+	<div class="card-footer">{$users|raw}</div>
+</div>
+<div class="modal fade" id="modal-config" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form method="post" action="/admin/fund/config">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">基金配置</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+		                <label class="form-label">是否开启</label>
+		                <label class="custom-switch">
+		                	{notempty name="config.enable"}
+	                        	<input type="checkbox" name="enable" class="custom-switch-input" checked="true" />
+	                        	<span class="custom-switch-indicator"></span>
+	                        	<span class="custom-switch-description enable-status">当前开启</span>
+	                        {else /}
+	                        	<input type="checkbox" name="enable" class="custom-switch-input" />
+	                        	<span class="custom-switch-indicator"></span>
+	                        	<span class="custom-switch-description enable-status">当前关闭</span>
+	                        {/notempty}
+                        </label>
+	                </div>
+					<div class="form-group">
+		                <label class="form-label">基金名称</label>
+		                <input type="text" class="form-control" name="title" placeholder="如：XX意外互助基金" value="{$config.title|default=''}" />
+	                </div>
+	                <div class="row">
+	                	<div class="col">
+    						<div class="form-group">
+    			                <label class="form-label">会员观察期</label>
+    			                <div class="input-group">
+    			                	<input type="text" class="form-control" name="expire" placeholder="天数" value="{$config.expire|default=''}" />
+    			                	<span class="input-group-append" id="basic-addon2">
+    		                            <span class="input-group-text">天</span>
+    		                        </span>
+    			                </div>
+    		                </div>
+	                	</div>
+	                	<div class="col">
+			                <div class="form-group">
+		                        <label class="form-label">最低有效金额</label>
+		                        <div class="input-group">
+		                        	<input type="text" class="form-control" name="min" value="{$config.min|default=''}" />
+        		                	<span class="input-group-append" id="basic-addon2">
+        	                            <span class="input-group-text">{$Think.config.hello.unit}</span>
+        	                        </span>
+		                        </div>
+		                    </div>
+	                	</div>
+	                </div>
+	                <div class="form-group">
+		                <label class="form-label">商城业绩自动投入</label>
+		                <div class="input-group">
+		                	<input type="text" class="form-control" name="percent" placeholder="如0.01表示1%，0表示不投" value="{$config.percent|default=''}" />
+		                </div>
+	                </div>
+	                <div class="form-group">
+                        <label class="form-label">充值金额列表，为空表示不限制</label>
+                        <input type="text" class="form-control" id="input-tags" name="money" value="{$config.money|default=''}" />
+                    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">保存设置</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+require(['jquery', 'selectize'], function($, selectize){
+	$(function(){
+		// 开启状态
+		$('input[name=enable]').on('change', function(){
+			var bool = $(this).prop('checked');
+			$('.enable-status').text(bool ? '当前开启' : '当前关闭');
+		});
+		// 充值金额
+		$('#input-tags').selectize({
+		    delimiter: ',',
+		    persist: false,
+		    create: function (input) {
+		        return {
+		            value: input,
+		            text: input
+		        }
+		    }
+		});
+	});
+});
+</script>
+{/block}

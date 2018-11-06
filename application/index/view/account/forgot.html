@@ -1,0 +1,67 @@
+{extend name="common/hello"}
+{block name="title"}Forgot Password{/block}
+{block name="style"}{/block}
+{block name="form"}
+<div class="card forgot" method="post">
+	<div class="card-body p-6">
+		<div class="dimmer">
+			<div class="loader"></div>
+			<div hid1den class="basic">
+				<div class="card-title">
+					<div class="lead">找回您的密码</div>
+					<div class="text-muted">在此之前，您需要进行身份验证！</div>
+				</div>
+				<div class="form-group">
+					<input type="tel" maxlength="11" name="username" class="form-control" placeholder="输入您的手机号码" />
+				</div>
+				<div class="input-group">
+	            	<input type="text" class="form-control" maxlength="3" name="captcha" placeholder="数字验证码" />
+	            	<span class="input-group-append" id="basic-addon2">
+	                	<span class="input-group-text captcha-touch">
+	                		<img src="{:url('service/captcha')}" class="captcha" />
+	                	</span>
+	            	</span>
+	            </div>
+				<div class="form-group">
+					<div class="input-group">
+						<input type="text" class="form-control" maxlength="6" name="verify_code" placeholder="手机验证码" />
+						<span class="input-group-append">
+							<button class="btn btn-secondary btn-send" type="button">发送短信</button>
+						</span>
+					</div>
+				</div>
+	            <div class="form-footer">
+					<button type="submit" class="btn btn-primary btn-block">继续，下一步</button>
+				</div>
+			</div>
+			<div hidden class="reset">
+				<div class="card-title">
+					<div class="lead">接下来</div>
+					<div class="text-muted">请重新设置您的登录密码！</div>
+				</div>
+				<div class="form-group">
+					<label class="form-label">登录密码</label>
+					<input type="password" maxlength="32" name="password" class="form-control" placeholder="请输入新的登录密码" />
+				</div>
+				<div class="form-group">
+					<label class="form-label">确认密码</label>
+					<input type="password" maxlength="32" name="confirm" class="form-control" placeholder="再输入一次登录密码" />
+				</div>
+				<div class="form-footer">
+					<button type="submit" class="btn btn-primary btn-block">重置密码</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="text-center text-muted">
+{empty name="Think.get.i"}
+	算了，<a href="./signin.html">我再想想！</a>
+{else /}
+	算了，<a href="./signin.html?i={$Think.get.i}">我再想想！</a>
+{/empty}
+</div>
+{/block}
+{block name="script"}
+<script src="/static/js/forgot.js"></script>
+{/block}

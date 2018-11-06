@@ -1,0 +1,79 @@
+{extend name="common/world"}
+{block name="title"}{$config.name|default='BOSS'}{/block}
+{block name="style"}
+<style>
+.carousel {
+    margin-top: -0.75rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+.carousel-item {
+}
+@media (min-width: 576px) {
+    .carousel {
+        margin-top: 0rem;
+        margin-left: 0rem;
+        margin-right: 0rem;
+    }
+    .carousel-item {
+        max-height: 18rem;
+    }
+}
+.card-header {
+    color: #364289;
+    border-bottom: none;
+}
+.card-introduce {
+    margin-top: -1rem;
+}
+.card-introduce .card-body {
+    color: #666;
+}
+.btitle {
+    position: absolute;
+    left: 50%;
+    top: 80px;
+    width: 270px;
+    margin-left: -135px;
+}
+</style>
+{/block}
+{block name="container"}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="/static/image/boss/b1.jpg?1" />
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="/static/image/boss/b2.jpg?1" />
+        </div>
+    </div>
+</div>
+<div class="btitle"><img src="/static/image/boss/btitle.png" /></div>
+<div class="card card-introduce">
+    <div class="card-header py-0">
+        <div class="font-weight-bold"><i class="fe fe-package mr-1"></i>什么是{$config.name|default=''}？</div>
+    </div>
+    <div class="card-body px-3 pt-0 pb-3">{$config.content|raw|default=''}</div>
+</div>
+<div class="card card-flow">
+    <div class="card-header py-0">
+        <div class="font-weight-bold"><i class="fe fe-share-2 mr-1"></i>申请流程</div>
+    </div>
+    <div class="card-body px-3 pt-0 pb-3 text-center"><img src="/static/image/boss/flow.jpg" width="80%" /></div>
+</div>
+<a href="/boss/join.html" class="btn btn-facebook btn-block mb-3">立即申请</a>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+require(['core', 'jquery'], function(core, $){
+	// 页面载入
+	$(function(){
+		// 轮播图
+		$('.carousel').carousel({
+			interval: 3000
+		});
+	});
+});
+</script>
+{/block}

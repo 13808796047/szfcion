@@ -1,0 +1,157 @@
+{extend name="common/world"}
+{block name="title"}我的资料{/block}
+{block name="style"}
+<style>
+.list-payment {
+    margin-right: .5rem;
+}
+.list-payment a {
+    width: auto !important;
+    background: transparent !important;
+    line-height: 1.5rem !important;
+}
+.list-inline-item {
+    margin-bottom: .5rem;
+}
+</style>
+{/block}
+{block name="container"}
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <span class="avatar avatar-xxl mr-5" style="background-image: url({:avatar($user.profile.avatar, $user.profile.idcard)});"></span>
+                    <div class="media-body">
+                        <h4 class="m-0 me-nickname">{$user.profile.nickname}</h4>
+                        <p class="text-muted mb-0">{$Think.config.hello.level[$user.account.type]['name']}</p>
+                        <ul class="social-links list-inline mb-0 mt-2">
+                            <li class="list-inline-item list-payment">
+                                {notempty name="user.profile.alipay"}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="{$user.profile.alipay}"><i class="payment payment-alipay text-blue"></i></a>
+                                {else /}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="未填写支付宝账号"><i class="payment payment-alipay"></i></a>
+                                {/notempty}
+                            </li>
+                            <li class="list-inline-item list-payment">
+                                {notempty name="user.profile.bankname"}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="{$user.profile.bankname}"><i class="payment payment-unionpay text-blue"></i></a>
+                                {else /}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="未填写银行卡号"><i class="payment payment-unionpay"></i></a>
+                                {/notempty}
+                            </li>
+                            <li class="list-inline-item">
+                                {notempty name="user.profile.wechat"}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="{$user.profile.wechat}"><i class="fa fa-weixin text-blue"></i></a>
+                                {else /}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="未填写微信账号"><i class="fa fa-weixin"></i></a>
+                                {/notempty}
+                            </li>
+                            <li class="list-inline-item">
+                                {notempty name="user.profile.qq"}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="{$user.profile.qq}"><i class="fa fa-qq text-blue"></i></a>
+                                {else /}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="未填写QQ号码"><i class="fa fa-qq"></i></a>
+                                {/notempty}
+                                <!-- {if empty($Think.config.hello.oauth.qq.enable)}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="未绑定QQ"><i class="fa fa-qq"></i></a>
+                                {elseif !empty($Think.config.hello.oauth.qq.enable) && empty($qqprofile) /}
+                                    <a href="/oauth/qq/login.html" title="" data-toggle="tooltip" data-original-title="未绑定QQ"><i class="fa fa-qq"></i></a>
+                                {elseif !empty($Think.config.hello.oauth.qq.enable) && !empty($qqprofile) /}
+                                    <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="已绑定QQ"><i class="fa fa-qq text-blue"></i></a>
+                                {/if} -->
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="javascript:void(0)" title="" data-toggle="tooltip" data-original-title="{$user.account.username}"><i class="fa fa-phone text-blue"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {notempty name="user.account.inviter"}
+                <div class="alert alert-info">您的推荐人是：{$user.account.inviter}</div>
+                {/notempty}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card profile">
+            <div class="card-body">
+                <div class="dimmer">
+                    <div class="loader"></div>
+                    <div class="dimmer-content">
+                        <h3 class="card-title">编辑资料</h3>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">手机号码</label>
+                                    <input type="text" class="form-control" disabled="true" name="username" placeholder="手机号码" value="{$user.account.username}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">个性昵称</label>
+                                    <input type="text" class="form-control" name="nickname" maxlength="10" placeholder="个性昵称" value="{$user.profile.nickname}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">微信账号</label>
+                                    <input type="text" class="form-control" name="wechat" maxlength="32" placeholder="微信账号" value="{$user.profile.wechat}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">QQ号码</label>
+                                    <input type="tel" class="form-control" name="qq" maxlength="11" placeholder="QQ号码" value="{$user.profile.qq}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">支付宝</label>
+                                    <input type="text" class="form-control" name="alipay" maxlength="32" placeholder="支付宝账号" value="{$user.profile.alipay}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">银行名称</label>
+                                    <input type="text" class="form-control" name="bankname" maxlength="10" placeholder="银行名称" value="{$user.profile.bankname}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">银行卡号</label>
+                                    <input type="text" class="form-control" name="bankcard" maxlength="30" placeholder="银行卡号" value="{$user.profile.bankcard}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">银行地址</label>
+                                    <input type="text" class="form-control" name="bankaddress" maxlength="30" placeholder="例如：北京市朝阳区XX路支行" value="{$user.profile.bankaddress}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">真实姓名</label>
+                                    <input type="text" class="form-control" disabled="true" name="realname" placeholder="与身份证及支付宝上一致" value="{$user.profile.realname}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">身份证号码</label>
+                                    <input type="text" class="form-control" disabled="true" name="idcard" placeholder="18位身份证号码" value="{$user.profile.idcard}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">更新资料</button>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="/static/js/profile.js?2"></script>
+{/block}

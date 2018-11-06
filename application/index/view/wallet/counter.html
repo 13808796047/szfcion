@@ -1,0 +1,169 @@
+{extend name="common/world"}
+{block name="title"}充值提现{/block}
+{block name="style"}
+<style>
+.btn-toggle-form {
+     position: absolute;
+    right: .3rem;
+    top: 0rem;
+    z-index: 1;
+}
+</style>
+{/block}
+{block name="container"}
+<div class="card card-form">
+    <div class="card-header">
+        <div class="card-title f1"><span class="form-title">在线充值</span></div>
+        <div class="card-options">
+            {if !empty($payment.enable) }
+            <button class="btn btn-primary btn-sm mr-2" type="button" data-type="recharge">充值</button>
+            {/if}
+            {if !empty($withdraw.enable) }
+            <button class="btn btn-secondary btn-sm mr-2" type="button" data-type="withdraw">提现</button>
+            {/if}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="dimmer">
+            <div class="dimmer-content recharge">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label">充值方式</label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="channel" value="alipay" class="selectgroup-input" checked="">
+                                    <span class="selectgroup-button">支付宝</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="channel" value="wechat" class="selectgroup-input">
+                                    <span class="selectgroup-button">微信</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label">充值金额</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="{$payment.min|default='0'} - {$payment.max|default='0'}" name="money" maxlength="8" />
+                                <span class="input-group-append" id="basic-addon2">
+                                    <span class="input-group-text">￥</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label">安全密码</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" placeholder="******" name="safeword" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="ml-auto text-right">
+                        <button type="button" class="btn btn-primary btn-submit btn-recharge">立即充值</button>
+                    </div>
+                </div>
+            </div>
+            <div hidden class="dimmer-content withdraw">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label">您想提现到哪里？</label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="where" value="alipay" class="selectgroup-input" checked="">
+                                    <span class="selectgroup-button">支付宝</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="where" value="bank" class="selectgroup-input">
+                                    <span class="selectgroup-button">银行卡</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <div class="form-label">真实姓名</div>
+                            <input type="text" class="form-control" name="realname" value="{$user.profile.realname|default=''}" readonly="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4 alipay-attr" hidden>
+                        <div class="form-group">
+                            <div class="form-label">支付宝账号</div>
+                            <input type="text" class="form-control" name="alipay" value="{$user.profile.alipay|default=''}" readonly="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4 bank-attr" hidden>
+                        <div class="form-group">
+                            <div class="form-label">银行名称</div>
+                            <input type="text" class="form-control" name="bankname" value="{$user.profile.bankname|default=''}" readonly="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4 bank-attr" hidden>
+                        <div class="form-group">
+                            <div class="form-label">银行卡号</div>
+                            <input type="text" class="form-control" name="bankcard" value="{$user.profile.bankcard|default=''}" readonly="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label">提现金额</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="{$withdraw.min}-{$withdraw.max}" name="money" />
+                                <span class="input-group-append" id="basic-addon2">
+                                    <span class="input-group-text">￥</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label">安全密码</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" placeholder="******" name="safeword" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="small text-muted mt-2">
+                        手续费：<span class="charge">0</span>
+                    </div>
+                    <div class="ml-auto text-right">
+                        <button type="submit" class="btn btn-primary btn-submit btn-withdraw">申请提现</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title f1"><span class="table-title">充值记录</span></div>
+    </div>
+    <div class="table-responsive">
+        <table class="table card-table table-striped table-vcenter">
+            <thead>
+                <tr>
+                    <th>信息</th>
+                    <th width="30%" class="text-right pr-4">状态</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div hidden class="card-footer card-more">
+        <div class="text-muted text-center">点击加载更多</div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+var charge = parseFloat('{$withdraw.charge|default=0}');
+</script>
+<script type="text/javascript" src="/static/js/counter.js?1"></script>
+{/block}

@@ -1,0 +1,147 @@
+{extend name="common/world"}
+{block name="title"}充值列表{/block}
+{block name="style"}{/block}
+{block name="container"}
+<form method="get" class="">
+	<div class="row">
+		<div class="col-md-8 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">用户账号</span>
+				</div>
+				<input type="text" class="form-control" name="username" value="{$Think.get.username}" />
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">订单状态</span>
+				</div>
+				<select class="custom-select" name="status">
+					<option value="-1">全部状态</option>
+					{volist name="statuses" id="item"}
+						{if is_null($Think.get.status)}
+							<option value="{$key}">{$item}</option>
+						{else /}
+							{eq name="Think.get.status" value="$key"}
+								<option value="{$key}" selected="true">{$item}</option>
+							{else /}
+								<option value="{$key}">{$item}</option>
+							{/eq}
+						{/if}
+					{/volist}
+				</select>
+			</div>
+		</div>
+		<div class="col-md-4 col-lg-2 mb-3">
+			<button class="btn btn-primary w-100" type="submit">立即查询</button>
+		</div>
+		{if staff('/admin/wallet/payment_config') }
+		<div class="col-md-4 col-lg-2 mb-3 text-right">
+			<button class="btn btn-info w-100" type="button" data-toggle="modal" data-target="#modal-config">充值配置</button>
+		</div>
+		{/if}
+	</div>
+</form>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th class="text-left w-1">#</th>
+	                <th>用户</th>
+	                <th>渠道</th>
+	                <th>状态</th>
+	                <th>货币</th>
+	                <th>服务费</th>
+	                <th>下单时间</th>
+	                <th>到账时间</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="logs" id="log"}
+	            <tr>
+	                <td class="text-left">{$log.pid}</td>
+	                <td>{$log.username}</td>
+	                <td>
+	                	{if $log.channel == 'alipay'}
+	                		<span class="tag tag-azure">支付宝</span>
+	                	{elseif $log.channel == 'wechat'}
+	                		<span class="tag tag-green">微信</span>
+	                	{elseif $log.channel == 'bank'}
+	                		<span class="tag tag-blue">网银</span>
+	                	{/if}
+	                </td>
+	                <td>
+	                	{switch log.status}
+	                		{case 1}
+	                			<span class="status-icon bg-success"></span> 成功
+	                		{/case}
+	                		{case 2}
+	                			<span class="status-icon bg-warning"></span> 未付款
+	                		{/case}
+	                		{case 0}
+	                			<span class="status-icon bg-red"></span> 失败
+	                		{/case}
+	                	{/switch}
+	                </td>
+	                <td>{$log.number|money}</td>
+	                <td>{$log.charge|money}</td>
+	                <td>{$log.create_at}</td>
+	                <td>{$log.notify_at}</td>
+	            </tr>
+	            {/volist}
+	        </tbody>
+	    </table>
+	</div>
+	<div class="card-footer">{$logs|raw}</div>
+</div>
+<div class="modal fade" id="modal-config" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form method="post" action="/admin/wallet/payment_config">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">充值配置</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+		                <label class="form-label">是否开启</label>
+		                <label class="custom-switch">
+		                	{notempty name="config.enable"}
+	                        	<input type="checkbox" name="enable" class="custom-switch-input" checked="true" />
+	                        	<span class="custom-switch-indicator"></span>
+	                        	<span class="custom-switch-description enable-status">当前开启</span>
+	                        {else /}
+	                        	<input type="checkbox" name="enable" class="custom-switch-input" />
+	                        	<span class="custom-switch-indicator"></span>
+	                        	<span class="custom-switch-description enable-status">当前关闭</span>
+	                        {/notempty}
+                        </label>
+	                </div>
+	                <div class="row">
+	                	<div class="col">
+			                <div class="form-group">
+		                        <label class="form-label">最低金额</label>
+		                        <input type="text" class="form-control" name="min" value="{$config.min|default=''}" />
+		                    </div>
+	                	</div>
+	                	<div class="col">
+			                <div class="form-group">
+		                        <label class="form-label">最高金额</label>
+		                        <input type="text" class="form-control" name="max" value="{$config.max|default=''}" />
+		                    </div>
+	                	</div>
+	                </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">保存设置</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+{/block}

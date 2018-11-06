@@ -1,0 +1,90 @@
+{extend name="common/world"}
+{block name="title"}实名认证{/block}
+{block name="style"}{/block}
+{block name="container"}
+<form class="card mx-auto authen" method="post" style="max-width: 22rem;">
+    <fieldset {$user.account.authen == 1 || $user.account.authen == 2 ? 'disabled' : ''}>
+        <div class="card-body">
+            <div class="dimmer">
+                <div class="loader"></div>
+                <div class="dimmer-content">
+                        <div class="card-title mb-4">
+                            <div class="text-black mb-1">实名认证</div>
+                            <div class="text-muted" style="font-size: .9rem;">请认真填写您的资料</div>
+                        </div>
+                        {eq name="user.account.authen" value="0"}
+                            {notempty name="user.profile.authen_reason"}
+                            <div class="alert alert-danger" role="alert">{$user.profile.authen_reason}</div>
+                            {/notempty}
+                        {/eq}
+                        {eq name="user.account.authen" value="1"}
+                            <div class="alert alert-success" role="alert">恭喜您、您已通过实名认证！</div>
+                        {/eq}
+                        {eq name="user.account.authen" value="2"}
+                            <div class="alert alert-warning" role="alert">您的资料正在审核中，请耐心等待！</div>
+                        {/eq}
+                        {notempty name="audit"}
+                            <div class="alert alert-warning" role="alert">您的账户尚未通过审核！</div>
+                        {/notempty}
+                        <div class="form-group">
+                            <label class="form-label">个性昵称</label>
+                            <input type="text" class="form-control" name="nickname" placeholder="个性昵称" value="{$user.profile.nickname}" maxlength="10" />
+                        </div>
+                        <!-- <div class="form-group">
+                            <div class="form-label">我的头像</div>
+                            <div class="custom-file">
+                                <input type="file" accept="image/*" class="custom-file-input" name="avatar" />
+                                <label class="custom-file-label">选择图片</label>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label class="form-label">真实姓名</label>
+                            <input type="text" class="form-control" name="realname" placeholder="与身份证上一致" value="{$user.profile.realname}" />
+                        </div>
+                        <div class="form-group mb-0">
+                            <label class="form-label">身份证号码</label>
+                            <input type="text" class="form-control" name="idcard" placeholder="身份证号码" value="{$user.profile.idcard}" />
+                        </div>
+                        {notempty name="Think.config.hello.authentication.certificate.front"}
+                        <div class="form-group mt-3 mb-0">
+                            <div class="form-label">身份证正面</div>
+                            <div class="custom-file">
+                                <input type="file" accept="image/*" class="custom-file-input" name="front" />
+                                <label class="custom-file-label">选择图片</label>
+                            </div>
+                        </div>
+                        {/notempty}
+                        {notempty name="Think.config.hello.authentication.certificate.back"}
+                        <div class="form-group mt-3 mb-0">
+                            <div class="form-label">身份证反面</div>
+                            <div class="custom-file">
+                                <input type="file" accept="image/*" class="custom-file-input" name="back" />
+                                <label class="custom-file-label">选择图片</label>
+                            </div>
+                        </div>
+                        {/notempty}
+                        {notempty name="Think.config.hello.authentication.certificate.hold"}
+                        <div class="form-group mt-3 mb-0">
+                            <div class="form-label">手持身份证</div>
+                            <div class="custom-file">
+                                <input type="file" accept="image/*" class="custom-file-input" name="hold" />
+                                <label class="custom-file-label">选择图片</label>
+                            </div>
+                        </div>
+                        {/notempty}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            {notempty name="audit"}
+                <button type="button" class="btn btn-primary" disabled="true">提交认证</button>
+            {else /}
+                <button type="button" class="btn btn-primary">提交认证</button>
+            {/notempty}
+        </div>
+    </fieldset>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="/static/js/authen.js?2"></script>
+{/block}

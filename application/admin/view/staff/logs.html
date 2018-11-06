@@ -1,0 +1,93 @@
+{extend name="common/world"}
+{block name="title"}用户日志{/block}
+{block name="style"}{/block}
+{block name="container"}
+<form method="get" class="">
+	<div class="row">
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">用户账号</span>
+				</div>
+				<input type="text" class="form-control" name="username" value="{$Think.get.username}" />
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">行为</span>
+				</div>
+				<select class="custom-select input-group-text" name="type">
+					<option value="">全部</option>
+					{volist name="Think.config.hello.log" id="item"}
+						{eq name="Think.get.type" value="$key"}
+							<option selected="" value="{$key}">{$item}</option>
+						{else /}
+							<option value="{$key}">{$item}</option>
+						{/eq}
+					{/volist}
+				</select>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">IP地址</span>
+				</div>
+				<input type="text" class="form-control" name="ip" value="{$Think.get.ip}" />
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">具体时间</span>
+				</div>
+				<input type="text" class="form-control" name="date" value="{$Think.get.date}" />
+			</div>
+		</div>
+		<div class="col-lg-2 mb-3">
+			<button class="btn btn-primary w-100" type="submit">立即查询</button>
+		</div>
+	</div>
+</form>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter card-table">
+	        <thead>
+	            <tr>
+	                <th width="100">用户</th>
+	                <th width="180">行为</th>
+	                <th width="180">IP</th>
+	                <th>描述</th>
+	                <th width="180">时间</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="logs" id="log"}
+	            <tr>
+	                <td>{$log.username}</td>
+	                <td>
+	                	<span class="tag tag-blue">
+	                    {if array_key_exists($log.type, config('hello.log')) }
+	                    	{$Think.config.hello.log[$log.type]}
+	                    {else /}
+	                    	其他
+	                    {/if}
+	                    </span>
+	                </td>
+	                <td>{$log.ip}</td>
+	                <td>{$log.text}</td>
+	                <td>{$log.create_at}</td>
+	            </tr>
+	            <tr>
+	            	<td colspan="6" class="text-muted">{$log.ua}</td>
+	            </tr>
+	            {/volist}
+	        </tbody>
+	    </table>
+	</div>
+	<div class="card-footer">{$logs|raw}</div>
+</div>
+{/block}
+{block name="script"}
+{/block}

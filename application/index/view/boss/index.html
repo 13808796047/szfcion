@@ -1,0 +1,163 @@
+{extend name="common/world"}
+{block name="title"}{$config.name|default='BOSS'}{/block}
+{block name="style"}
+<style>
+.carousel {
+    margin-top: -0.75rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+.carousel-item {
+}
+@media (min-width: 576px) {
+    .carousel {
+        margin-top: 0rem;
+        margin-left: 0rem;
+        margin-right: 0rem;
+    }
+    .carousel-item {
+        max-height: 18rem;
+    }
+}
+.card-bosses {
+    margin-top: -1rem;
+}
+.card-boss a:hover {
+    text-decoration: none;
+}
+.card-boss .info {
+    border-bottom: 1px solid #eee;
+}
+.card-boss .tags {
+    margin-top: .5rem;
+    height: 24px;overflow: hidden;
+}
+.card-boss .level {
+    margin-top: -1rem; position: relative;z-index: 2;
+    display: block; padding: .3rem 0 .25rem 0;
+    width: 3.58rem; margin-left: .23rem;
+}
+.card-boss .level i {
+    display: inline-block;
+    width: 1rem; margin-right: .1rem;
+}
+.card-boss .level i img {
+    margin-bottom: 1px;
+}
+.card-boss .level-lv1 {
+    background-color: #fff;
+    color: #bababa;
+    box-shadow: 0 -1px 3px #999;
+}
+.card-boss .level-lv2 {
+    background-color: #fff;
+    color: #e9c158;
+    box-shadow: 0 -1px 3px #666;
+}
+.card-boss .level-lv3 {
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 -1px 3px #000;
+}
+.btn-index {
+    position: absolute;right: .75rem;top: 5rem;
+}
+.btitle {
+    position: absolute;
+    left: 50%;
+    top: 80px;
+    width: 270px;
+    margin-left: -135px;
+}
+</style>
+{/block}
+{block name="container"}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="/static/image/boss/b1.jpg?1" />
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="/static/image/boss/b2.jpg?1" />
+        </div>
+    </div>
+</div>
+<div class="btitle"><img src="/static/image/boss/btitle.png" /></div>
+{if !empty($boss) && $boss['status'] == 1 }
+    <a href="/boss/profile.html" class="btn btn-success btn-index">我的</a>
+{else /}
+    <a href="/boss/welcome.html" class="btn btn-success btn-index">立即加入</a>
+{/if}
+<div class="card-bosses row"></div>
+<button class="btn btn-secondary btn-block mb-3" hidden>加载更多</button>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+require(['core', 'jquery'], function(core, $){
+	// 页面载入
+	$(function(){
+        // 用户列表
+        var page = 1, size = 20;
+        var search = function(){
+            var param = {
+                page: page,
+                size: size
+            }
+            ajax(api.boss.search, param, function(res){
+                if (res.code == 200) {
+                    var html = '';
+                    for (var i = 0; i < res.data.length; i++) {
+                        var item = res.data[i];
+                        html += '<div class="col-sm-4">';
+                            html += '<div class="card card-boss p-3">';
+                                html += '<a class="d-flex" href="/boss/profile.html?id=' + item.id + '">';
+                                    html += '<div class="w-25">';
+                                        html += '<span class="avatar avatar-xl" style="background-image: url(' + item.avatar + ');"></span>';
+                                        if (item.level == 'lv1') {
+                                            html += '<span class="badge badge-pill level level-lv1"><i><img src="/static/image/boss/lv1.png" /></i>白银</span>';
+                                        } else if (item.level == 'lv2') {
+                                            html += '<span class="badge badge-pill level level-lv2"><i><img src="/static/image/boss/lv2.png" /></i>黄金</span>';
+                                        } else if (item.level == 'lv3') {
+                                            html += '<span class="badge badge-pill level level-lv3"><i><img src="/static/image/boss/lv3.png" /></i>黑金</span>';
+                                        }
+                                    html += '</div>';
+                                    html += '<div class="w-75 info">';
+                                        html += '<div><span class="nick font-weight-bold">' + item.realname + '</span><small class="float-right text-muted"><i class="fe fe-map-pin mr-1"></i>' + item.region + '</small></div>';
+                                        html += '<div class="tags">';
+                                        if (item.title) {
+                                            var titles = item.title.split(',');
+                                            for (var j = 0; j < titles.length; j++) {
+                                                html += '<span class="tag">' + titles[j] + '</span>';
+                                            }
+                                        }
+                                        html += '</div>';
+                                    html += '</div>';
+                                html += '</a>';
+                                if (item.background) {
+                                    html += '<div class="background mt-2 text-gray">' + item.background + '...</div>';
+                                }
+                            html += '</div>';
+                        html += '</div>';
+                    }
+                    $('.card-bosses').append(html);
+                    if (res.data.length == size) {
+                        page++;
+                        $('.btn-more').prop('hidden', false);
+                    } else {
+                        $('.btn-more').prop('hidden', true);
+                    }
+                } else {
+                    toast(res.message);
+                }
+            });
+        }
+        search();
+		// 轮播图
+		$('.carousel').carousel({
+			interval: 3000
+		});
+        //
+	});
+});
+</script>
+{/block}

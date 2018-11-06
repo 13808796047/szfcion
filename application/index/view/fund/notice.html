@@ -1,0 +1,47 @@
+{extend name="common/world"}
+{block name="title"}互助基金{/block}
+{block name="style"}
+<style>
+.card-body {
+    background-image: url(/static/image/fund_notice.png);
+    background-repeat: no-repeat;
+    background-size: 25%;
+    background-position: 90% center;
+}
+</style>
+{/block}
+{block name="container"}
+<div class="btn-list mb-1">
+    <a href="javascript:history.back(-1);" class="btn btn-secondary">返回</a>
+</div>
+{volist name="notices" id="item"}
+<div class="card">
+    <div class="card-header">
+        <div>{$item.realname ?: $item.username}</div>
+        <div class="card-options">
+            <span class="small mr-2">{$item.update_at}</span>
+        </div>
+    </div>
+    <div class="card-body p-3">
+        <div class="d-flex">
+            <div class="w-25 mt-1"><img src="/upload/{$item.image}" /></div>
+            <div class="ml-2">
+                <div>互助金额：<span class="text-gray">{$item.money|money}{$Think.config.hello.unit}</span></div>
+                <div>参与人数：<span class="text-gray">{$item.people}</span></div>
+                <div>互助原因：<span class="text-gray">{$item.reason}</span></div>
+            </div>
+        </div>
+        <div class="text-gray">{$item.content|raw}</div>
+    </div>
+</div>
+{/volist}
+{/block}
+{block name="script"}
+<script type="text/javascript">
+require(['jquery'], function($){
+	// 页面载入
+	$(function(){
+	});
+});
+</script>
+{/block}

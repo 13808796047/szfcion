@@ -1,0 +1,110 @@
+{extend name="common/world"}
+{block name="title"}{$contract.title}{/block}
+{block name="style"}
+<link rel="stylesheet" href="/static/css/transaction.css" />
+<style>
+</style>
+{/block}
+{block name="container"}
+<div class="card card-message">
+    <div class="card-header">
+        <div class="card-title f1">
+            <div class="d-flex align-items-center">
+                <span class="tag"><span class="text-truncate" style="max-width: 9rem;">{$contract.title}</span><span class="tag-addon tag-blue tag-status">-</span></span>
+            </div>
+        </div>
+        <div class="card-options pr-2">
+            <a href="#"><i class="fe fe-help-circle" style="vertical-align: baseline;"></i></a>
+            <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize" style="vertical-align: baseline;"></i></a>
+        </div>
+    </div>
+    <div class="card-body card-frame p-3 o-auto">
+        <div class="dimmer">
+            <div class="loader"></div>
+            <div class="dimmer-content chat-content"></div>
+        </div>
+    </div>
+    <div class="card-footer chat-option">
+        <div class="input-group">
+            <input type="text" class="form-control" id="say" placeholder="在这里说的话，对用户来说，看到的都是系统提示" />
+            <div class="input-group-append">
+                <button type="button" class="btn btn-secondary" onclick="say()">发送提示</button>
+                <button data-toggle="dropdown" type="button" class="btn btn-secondary dropdown-toggle"></button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#modal-status">更改状态</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/admin/contract/transaction?action=cancel&id={$Think.get.id}">取消交割</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document" style="margin-top: -10%;">
+        <div class="modal-content">
+            <form method="post">
+                <input type="hidden" name="id" value="{$Think.get.id}" />
+                <input type="hidden" name="action" value="status" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">更改状态</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select class="form-control custom-select" name="status">
+                            <option value="0">取消</option>
+                            <option value="1">竞拍中</option>
+                            <option value="2">待发货</option>
+                            <option value="3">待签收</option>
+                            <option value="4">申请退货</option>
+                            <option value="5">等待退货</option>
+                            <option value="10">拒绝退货</option>
+                            <option value="13">立即退货</option>
+                            <option value="6">退货签收</option>
+                            <option value="7">保护中</option>
+                            <option value="8">已成交</option>
+                            <option value="9">投诉中</option>
+                        </select>
+                    </div>
+                    <p class="text-danger">改完状态后、请手动发送系统提示引导用户继续操作！</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">确认提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+var id = '{$Think.get.id}';
+var guest = true;
+</script>
+<script type="text/javascript" src="/static/js/ct_transaction.js"></script>
+<script type="text/javascript">
+var say = function(){
+    var content = $('#say').val();
+    if (content == '') {
+        $('#say').focus();
+        return false;
+    } else {
+        $('.dimmer').addClass('active');
+        ajax(api.contract.system, {id: id, content: content}, function(res){
+            $('.dimmer').removeClass('active');
+            if (res.code == 200) {
+                $('#say').val('');
+                chat(15, {
+                    content: content,
+                    create_at: now()
+                });
+            } else {
+                toast(res.message);
+            }
+        });
+    }
+}
+</script>
+{/block}

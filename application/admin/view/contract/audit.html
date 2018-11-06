@@ -1,0 +1,168 @@
+{extend name="common/world"} {block name="title"}链上合约{/block} {block name="style"}
+<style type="text/css">
+</style>
+{/block} {block name="container"}
+<div class="d-flex">
+    <div class="btn-list">
+        {if staff('/admin/contract/index')}
+        <a href="/admin/contract/index.html" class="btn btn-secondary">商品列表</a>
+        {/if}
+        <a href="/admin/contract/audit.html" class="btn btn-primary">编辑审核</a>
+        {if staff('/admin/contract/delivery')}
+        <a href="/admin/contract/delivery.html" class="btn btn-secondary">商品交割</a>
+        {/if}
+        {if staff('/admin/contract/agent')}
+        <a href="/admin/contract/agent.html" class="btn btn-secondary">代理商</a>
+        {/if}
+        {if staff('/admin/contract/logs') }
+        <a href="/admin/contract/logs.html" class="btn btn-secondary">操作记录</a>
+        {/if}
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-body p-0">
+        <table class="table table-hover table-outline table-vcenter card-table">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>代理</th>
+                    <th>图片</th>
+                    <th>可否交割</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name="logs" id="log"}
+                    <tr>
+                        <td>
+                            {empty name="log.audit"} <span class="badge badge-warning badge-md">审</span>{/empty}
+                            {$log.title} <span class="badge badge-default badge-md">{$Think.config.hello.contract.catalog[$log.catalog]}</span>{empty name="log.visible"} <span class="badge badge-default badge-md">不可见</span>{/empty}
+                        </td>
+                        <td>
+                            {notempty name="log.agent"}
+                                {if staff('/admin/account/simulate')}
+                                    <a href="/admin/account/simulate.html?username={$log.agent}&to={:urlencode('/contract/agent.html')}" target="_blank" class="icon">{$log.agent}</a>
+                                {else /}
+                                    {$log.agent}
+                                {/if}
+                            {else /}
+                                官方
+                            {/notempty}
+                        </td>
+                        <td><a href="/upload/{$log.image}" target="_blank"><img src="/upload/{$log.image}" class="w-7 h-5" /></a></td>
+                        <td>
+                            {if $log.is_delivery == 1}
+                                <span class="tag tab-blue">支持</span>
+                            {else /}
+                                <span class="tag">不支持</span>
+                            {/if}
+                        </td>
+                        <td>
+                            <button class="btn btn-secondary btn-sm btn-compare" data-id="{$log.id}">对比</button>
+                        </td>
+                    </tr>
+                {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">{$logs|raw}</div>
+</div>
+<div class="modal modal-compare" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post">
+                <input type="hidden" name="id" />
+                <input type="hidden" name="action" value="refuse" />
+                <div class="modal-header">
+                    <h5 class="modal-title">商品对比</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-outline table-vcenter card-table">
+                            <thead>
+                                <tr>
+                                    <th width="20%">字段</th>
+                                    <th width="40%">原数据</th>
+                                    <th width="40%">新数据</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>标题</td>
+                                    <td><div class="old_title"></div></td>
+                                    <td><div class="new_title"></div></td>
+                                </tr>
+                                <tr>
+                                    <td>可否交割</td>
+                                    <td><div class="old_is_delivery"></div></td>
+                                    <td><div class="new_is_delivery"></div></td>
+                                </tr>
+                                <tr>
+                                    <td>图片</td>
+                                    <td><div class="old_image"><img /></div></td>
+                                    <td><div class="new_image"><img /></div></td>
+                                </tr>
+                                <tr>
+                                    <td>详情</td>
+                                    <td><div class="old_content"></div></td>
+                                    <td><div class="new_content"></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-danger">拒绝</button>
+                    <button type="button" class="btn btn-success">通过</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+require(['jquery'], function($){
+    $(function(){
+        // 比较商品
+        $('.btn-compare').on('click', function(){
+            if ($('.btn-loading').length) {
+                return false;
+            }
+            $(this).addClass('btn-loading');
+            var id = $(this).data('id');
+            ajax('/admin/contract/index', {action: 'get', id: id}, function(res){
+                $('.btn-compare[data-id=' + id + ']').removeClass('btn-loading');
+                $('.modal-compare input[name=id]').val(res.data.id);
+
+                $('.modal-compare .old_title').text(res.data.title);
+                $('.modal-compare .new_title').text(res.data.source.title);
+
+                $('.modal-compare .old_is_delivery').text(res.data.is_delivery == 1 ? '支持' : '不支持');
+                $('.modal-compare .new_is_delivery').text(res.data.source.is_delivery == 1 ? '支持' : '不支持');
+
+                $('.modal-compare .old_image img').attr('src', '/upload/' + res.data.image);
+                $('.modal-compare .new_image img').attr('src', '/upload/' + (res.data.source.image ? res.data.source.image : res.data.image));
+
+                $('.modal-compare .old_content').html(res.data.content);
+                $('.modal-compare .new_content').html(res.data.source.content);
+
+                $('.modal-compare').modal();
+            });
+        });
+        // 通过商品
+        $('.btn-success').on('click', function(){
+            $('.modal-compare input[name=action]').val('agree');
+            $('.modal-compare form')[0].submit();
+        });
+        // 拒绝商品
+        $('.btn-danger').on('click', function(){
+            $('.modal-compare input[name=action]').val('refuse');
+            $('.modal-compare form')[0].submit();
+        });
+    });
+});
+</script>
+{/block}

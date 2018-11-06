@@ -1,0 +1,213 @@
+{extend name="common/world"}
+{block name="title"}资金释放{/block}
+{block name="style"}{/block}
+{block name="container"}
+<form method="get" class="">
+	<div class="row">
+		<div class="col-md-8 col-lg-3 mb-3">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">用户账号</span>
+				</div>
+				<input type="text" class="form-control" name="username" value="{$Think.get.username}" />
+			</div>
+		</div>
+		<div class="col-md-4 col-lg-2 mb-3">
+			<button class="btn btn-primary w-100" type="submit">立即查询</button>
+		</div>
+		{if staff('/admin/wallet/release_config') }
+		<div class="col-md-4 col-lg-2 mb-3 text-right">
+			<button class="btn btn-info w-100" type="button" data-toggle="modal" data-target="#modal-config">释放配置</button>
+		</div>
+		{/if}
+		{if staff('/admin/wallet/release_execute') }
+		<div class="col-md-4 col-lg-2 mb-3 text-right">
+			<button class="btn btn-success w-100 btn-release" type="button">立即释放</button>
+		</div>
+		{/if}
+	</div>
+</form>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th>用户</th>
+	                <th>货币</th>
+	                <th>之前</th>
+	                <th>本次</th>
+	                <th>之后</th>
+	                <th>时间</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="logs" id="log"}
+	            <tr>
+	                <td>{$log.username}</td>
+	                <td>{$Think.config.hello.currencys[$log.currency]['name']}</td>
+	                <td>{$log.before|money}</td>
+	                <td>{$log.now|money}</td>
+	                <td>{$log.after|money}</td>
+	                <td>{$log.create_at}</td>
+	            </tr>
+	            {/volist}
+	        </tbody>
+	    </table>
+	</div>
+	<div class="card-footer">{$logs|raw}</div>
+</div>
+<div class="modal fade" id="modal-config" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form method="post" action="/admin/wallet/release_config">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">释放配置</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-4">
+							<div class="form-group">
+				                <label class="form-label">是否开启</label>
+				                <label class="custom-switch">
+				                	{notempty name="config.enable"}
+			                        	<input type="checkbox" name="enable" class="custom-switch-input" checked="true" />
+			                        	<span class="custom-switch-indicator"></span>
+			                        	<span class="custom-switch-description enable-status">当前开启</span>
+			                        {else /}
+			                        	<input type="checkbox" name="enable" class="custom-switch-input" />
+			                        	<span class="custom-switch-indicator"></span>
+			                        	<span class="custom-switch-description enable-status">当前关闭</span>
+			                        {/notempty}
+		                        </label>
+			                </div>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label class="form-label">释放周期</label>
+								<select class="custom-select" name="cycle">
+									<option value="1">按天释放</option>
+									<option value="2">按周释放</option>
+									<option value="3">按月释放</option>
+								</select>
+							</div>
+						</div>
+						<div class="col">
+							<div class="form-group day" hidden>
+								<label class="form-label">时间</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">每周</span>
+									</div>
+									<select class="custom-select" name="day"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="form-group">
+								<label class="form-label">几点钟释放</label>
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="例如：15" name="hour" value="{$config.hour|default=''}" />
+									<div class="input-group-append">
+										<span class="input-group-text">点00分</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+			                <div class="form-group">
+				                <label class="form-label">释放金额</label>
+				                <div class="input-group">
+				                	<input type="text" class="form-control" name="percent" placeholder="如0.01表示1%" value="{$config.percent|default=''}" />
+				                </div>
+				            </div>
+			            </div>
+					</div>
+	                <div class="form-text text-danger">
+		                <p>关于释放金额</p>
+		                <p>1. 不能小于0</p>
+		                <p>2. 等于0表示不释放</p>
+		                <p>3. 大于0小于1，按比例释放</p>
+		                <p>4. 大于等于1，按该值固定释放</p>
+	                </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">保存设置</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+var config = JSON.parse('{$config|json_encode|raw}');
+require(['jquery'], function($){
+	$(function(){
+		// 选择周期
+		var choose = function(){
+			var cycle = $('select[name=cycle]').val();
+			if (cycle == 2) {
+				var opt = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'];
+				var html = '';
+				for (var i = 0; i < opt.length; i++) {
+					if (config.cycle == cycle && config.day == i + 1) {
+						html += '<option selected value="' + (i + 1) + '">' + opt[i] + '</option>';
+					} else {
+						html += '<option value="' + (i + 1) + '">' + opt[i] + '</option>';
+					}
+				}
+				$('.day .form-label').html('每周');
+				$('.day .input-group-text').html('每周');
+				$('select[name=day]').html(html);
+				$('.day').prop('hidden', false);
+			} else if (cycle == 3) {
+				var html = '';
+				for (var i = 1; i <= 31; i++) {
+					if (config.cycle == cycle && config.day == i) {
+						html += '<option selected value="' + (i) + '">' + i + '号</option>';
+					} else {
+						html += '<option value="' + (i) + '">' + i + '号</option>';
+					}
+				}
+				$('.day .form-label').html('每月');
+				$('.day .input-group-text').html('每月');
+				$('select[name=day]').html(html);
+				$('.day').prop('hidden', false);
+			} else {
+				$('.day').prop('hidden', true);
+			}
+		}
+		$('select[name=cycle]').on('change', choose);
+		// 默认周期
+		if (config.cycle) {
+			$('select[name=cycle]').val(config.cycle);
+		}
+		choose();
+		// 立即释放
+		$('.btn-release').on('click', function(){
+			if ($(this).hasClass('btn-loading')) {
+				return false;
+			}
+			$(this).addClass('btn-loading');
+			ajax('/wallet/release', {}, function(res){
+				$('.btn-release').removeClass('btn-loading');
+				if (res.code == 200) {
+					toast(res.message, function(){
+						window.location.reload();
+					});
+				} else {
+					toast(res.message);
+				}
+			});
+		});
+	});
+});
+</script>
+{/block}

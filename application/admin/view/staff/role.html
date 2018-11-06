@@ -1,0 +1,66 @@
+{extend name="common/world"}
+{block name="title"}节点列表{/block}
+{block name="style"}
+<style>
+.ml0 {
+	font-weight: bold;
+}
+.ml1 {
+	color: #666;
+	margin-left: 4rem;
+}
+.ml2 {
+	color: #999;
+	margin-left: 8rem;
+}
+</style>
+{/block}
+{block name="container"}
+<div class="btn-list">
+</div>
+<div class="card">
+	<div class="table-responsive">
+	    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+	        <thead>
+	            <tr>
+	                <th>类型</th>
+	                <th>名称</th>
+	                <th>路径</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{volist name="roles" id="role"}
+	            <tr>
+	                <td>
+	                	<span class="tag tag-secondary">
+	                	{switch $role.type}
+	                		{case 1}主节点{/case}
+	                		{case 2}次节点{/case}
+	                		{case 3}操作{/case}
+	                		{default /}其他
+	                    {/switch}
+	                    </span>
+	                </td>
+	                <td><span class="ml{$role.index-1}">{$role.name}</span></td>
+	                <td>{$role.path}</td>
+	            </tr>
+	            {/volist}
+	        </tbody>
+	    </table>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+require(['jquery'], function($){
+	$(function(){
+		// 编辑账号
+		$('.btn-go-edit').on('click', function(){
+			$('#modal-upded input[name=id]').val($(this).attr('id'));
+			$('#modal-upded input[name=username]').val($(this).attr('username'));
+			$('#modal-upded').modal();
+		});
+	});
+});
+</script>
+{/block}

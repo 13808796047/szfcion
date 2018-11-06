@@ -1,0 +1,87 @@
+{extend name="common/world"} {block name="title"}链上合约{/block} {block name="style"}
+<style type="text/css">
+</style>
+{/block} {block name="container"}
+<div class="d-flex">
+    <div class="btn-list">
+        {if staff('/admin/contract/index')}
+        <a href="/admin/contract/index.html" class="btn btn-secondary">商品列表</a>
+        {/if}
+        {if staff('/admin/contract/audit')}
+        <a href="/admin/contract/audit.html" class="btn btn-secondary">编辑审核</a>
+        {/if}
+        <a href="/admin/contract/delivery.html" class="btn btn-primary">商品交割</a>
+        {if staff('/admin/contract/agent')}
+        <a href="/admin/contract/agent.html" class="btn btn-secondary">代理商</a>
+        {/if}
+        {if staff('/admin/contract/logs') }
+        <a href="/admin/contract/logs.html" class="btn btn-secondary">操作记录</a>
+        {/if}
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-body p-0">
+        <table class="table table-hover table-outline table-vcenter card-table">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>图片</th>
+                    <th>代理</th>
+                    <th>买家</th>
+                    <th>状态</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name="logs" id="log"}
+                    <tr>
+                        <td>
+                            {empty name="log.audit"} <span class="badge badge-warning badge-md">审</span>{/empty}
+                            {$log.title} <span class="badge badge-default badge-md">{$Think.config.hello.contract.catalog[$log.catalog]}</span>{empty name="log.visible"} <span class="badge badge-default badge-md">不可见</span>{/empty}
+                        </td>
+                        <td><a href="/upload/{$log.image}" target="_blank"><img src="/upload/{$log.image}" class="w-7 h-5" /></a></td>
+                        <td>
+                            {notempty name="log.agent"}
+                                {if staff('/admin/account/simulate')}
+                                    <a href="/admin/account/simulate.html?username={$log.agent}&to={:urlencode('/contract/agent.html')}" target="_blank" class="icon">{$log.agent}</a>
+                                {else /}
+                                    {$log.agent}
+                                {/if}
+                            {else /}
+                                官方
+                            {/notempty}
+                        </td>
+                        <td>{$log.owner}</td>
+                        <td>
+                            {if $log.is_delivery == 1}
+                                <span class="tag tag-blue">
+                                {switch $log.delivery}
+                                    {case 1}竞拍中{/case}
+                                    {case 2}待发货{/case}
+                                    {case 3}待签收{/case}
+                                    {case 4}申请退货{/case}
+                                    {case 5}等待退货{/case}
+                                    {case 10}拒绝退货{/case}
+                                    {case 13}立即退货{/case}
+                                    {case 6}退货签收{/case}
+                                    {case 7}保护中{/case}
+                                    {case 8}已成交{/case}
+                                    {case 9}投诉中{/case}
+                                {/switch}
+                                </span>
+                            {else /}
+                                <span class="tag">不支持</span>
+                            {/if}
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary btn-sm btn-edit" href="/admin/contract/transaction.html?id={$log.id}">查看</a>
+                        </td>
+                    </tr>
+                {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">{$logs|raw}</div>
+</div>
+{/block}
+{block name="script"}{/block}
