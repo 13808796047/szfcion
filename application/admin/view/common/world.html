@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
+    <meta name="keywords" content="比特币挖矿机,蚂蚁矿机,阿瓦隆矿机,暴风比特,FCC,数字翡翠,翡翠">
+    <meta name="description" content="FCC是全球领先的数字资产交易平台，成立于2018年，目前提供超过百种数字资产的交易及投资，交易平台包含FCC币交易、币币交易、创新数字货币以及杠杆交易板块。">
     <meta name="renderer" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover, shrink-to-fit=no" />
@@ -19,7 +22,7 @@
     <link rel="stylesheet" href="/assets/css/dashboard.css?3" />
     <title>{block name="title"}Title{/block}</title>
     <style>
-    .toast {
+        .toast {
         text-align: center;
     }
     .toast-mask {
@@ -62,19 +65,19 @@
 </head>
 
 <body>
-<!-- content -->
-<div class="page">
-    <div class="page-main">
-        <div class="header py-4">
-            <div class="container">
-                <div class="d-flex">
-                    <a class="header-brand" href="/admin.html"><img src="/static/image/logo.png" class="header-brand-img" alt="tabler logo"></a>
-                    <div class="d-flex order-lg-2 ml-auto">
-                        <div class="nav-item">
-                            <a href="/signin.html" class="btn btn-sm btn-outline-primary">返回前台</a>
-                        </div>
-                        <div class="dropdown">
-                            <a class="nav-link pr-0 leading-none">
+    <!-- content -->
+    <div class="page">
+        <div class="page-main">
+            <div class="header py-4">
+                <div class="container">
+                    <div class="d-flex">
+                        <a class="header-brand" href="/admin.html"><img src="/static/image/logo.png" class="header-brand-img" alt="tabler logo"></a>
+                        <div class="d-flex order-lg-2 ml-auto">
+                            <div class="nav-item">
+                                <a href="/signin.html" class="btn btn-sm btn-outline-primary">返回前台</a>
+                            </div>
+                            <div class="dropdown">
+                                <a class="nav-link pr-0 leading-none">
                                 <span class="avatar me-avatar" style="background-image: url(/static/image/icon.png);"><span class="avatar-status bg-green"></span></span>
                                 <span class="ml-2 d-none d-lg-block">
                                     {notempty name="$Think.session.manager"}
@@ -85,90 +88,93 @@
                                     <small class="text-muted d-block mt-1">{:$Request.ip}</small>
                                 </span>
                             </a>
+                            </div>
                         </div>
-                    </div>
-                    <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+                        <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
                         <span class="header-toggler-icon"></span>
                     </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-3 ml-auto header-search-div">
-                        <form class="input-icon my-3 my-lg-0" method="get" action="/admin/account/edit.html">
-                            <input type="search" class="form-control header-search" placeholder="用户账号&hellip;" tabindex="1" name="username" />
-                            <div class="input-icon-addon">
-                                <i class="fe fe-search"></i>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-lg order-lg-first">
-                        <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
-                            {php}
-                                foreach (session('roles') as $role) {
-                                    if ($role['type'] == 1 && (session('?staff') || in_array($role['id'], session('power_id')))) {
-                                        echo '<li class="nav-item">';
-                                            if (empty($role['path'])) {
-                                                echo '<a class="nav-link" data-toggle="dropdown"><i class="' . $role['icon'] . '"></i>' . $role['name'] . '</a>';
-                                            } else {
-                                                echo '<a href="' . $role['path'] . '.html" class="nav-link"><i class="' . $role['icon'] . '"></i>' . $role['name'] . '</a>';
-                                            }
-                                            $start = false;
-                                            foreach (session('roles') as $_key => $_role) {
-                                                if ($_role['parent'] == $role['id'] && $_role['type'] == 2 && (session('?staff') || in_array($_role['id'], session('power_id')))) {
-                                                    if (empty($start)) {
-                                                        echo '<div class="dropdown-menu dropdown-menu-arrow">';
-                                                        $start = true;
-                                                    }
-                                                    echo '<a href="' . $_role['path'] . '.html" class="dropdown-item">' . $_role['name'] . '</a>';
-                                                }
-                                                if (!empty($start) && $_key == count(session('roles'))) {
-                                                    echo '</div>';
-                                                }
-                                            }
-                                        echo '</li>';
-                                    }
-                                }
-                            {/php}
-                            {notempty name="Think.session.staff"}
-                            <li class="nav-item">
-                                <a href="javascript:;" class="nav-link" data-toggle="dropdown"><i class="fe fe-settings"></i>系统</a>
-                                <div class="dropdown-menu dropdown-menu-arrow">
-                                    <a href="/admin/staff/index.html" class="dropdown-item">管理员列表</a>
-                                    <a href="/admin/staff/role.html" class="dropdown-item">节点列表</a>
-                                    <a href="/admin/staff/logs.html" class="dropdown-item">操作日志</a>
+            <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 ml-auto header-search-div">
+                            <form class="input-icon my-3 my-lg-0" method="get" action="/admin/account/edit.html">
+                                <input type="search" class="form-control header-search" placeholder="用户账号&hellip;" tabindex="1" name="username" />
+                                <div class="input-icon-addon">
+                                    <i class="fe fe-search"></i>
                                 </div>
-                            </li>
-                            {/notempty}
-                        </ul>
+                            </form>
+                        </div>
+                        <div class="col-lg order-lg-first">
+                            <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                                {php}
+                                foreach (session('roles') as $role) {
+                                if ($role['type'] == 1 && (session('?staff') || in_array($role['id'], session('power_id')))) {
+                                echo '<li class="nav-item">';
+                                    if (empty($role['path'])) {
+                                    echo '<a class="nav-link" data-toggle="dropdown"><i class="' . $role['icon'] . '"></i>' . $role['name'] . '</a>';
+                                    } else {
+                                    echo '<a href="' . $role['path'] . '.html" class="nav-link"><i class="' . $role['icon'] . '"></i>' . $role['name'] . '</a>';
+                                    }
+                                    $start = false;
+                                    foreach (session('roles') as $_key => $_role) {
+                                    if ($_role['parent'] == $role['id'] && $_role['type'] == 2 && (session('?staff') || in_array($_role['id'], session('power_id')))) {
+                                    if (empty($start)) {
+                                    echo '<div class="dropdown-menu dropdown-menu-arrow">';
+                                        $start = true;
+                                        }
+                                        echo '<a href="' . $_role['path'] . '.html" class="dropdown-item">' . $_role['name'] . '</a>';
+                                        }
+                                        if (!empty($start) && $_key == count(session('roles'))) {
+                                        echo '</div>';
+                                    }
+                                    }
+                                    echo '</li>';
+                                }
+                                }
+                                {/php}
+                                {notempty name="Think.session.staff"}
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link" data-toggle="dropdown"><i class="fe fe-settings"></i>系统</a>
+                                    <div class="dropdown-menu dropdown-menu-arrow">
+                                        <a href="/admin/staff/index.html" class="dropdown-item">管理员列表</a>
+                                        <a href="/admin/staff/role.html" class="dropdown-item">节点列表</a>
+                                        <a href="/admin/staff/logs.html" class="dropdown-item">操作日志</a>
+                                    </div>
+                                </li>
+                                {/notempty}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="my-3 my-md-5">
-            <div class="container container-padding">
-                {block name="container"}{/block}
+            <div class="my-3 my-md-5">
+                <div class="container container-padding">
+                    {block name="container"}{/block}
+                </div>
             </div>
         </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row align-items-center flex-row-reverse">
+                    <div class="col-auto ml-lg-auto">
+                        <div class="row align-items-center">{$Think.now}</div>
+                    </div>
+                    <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
+                        Copyright © 2018 <a href=".">{$Think.config.hello.title}</a>. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-    <footer class="footer">
-        <div class="container">
-            <div class="row align-items-center flex-row-reverse">
-                <div class="col-auto ml-lg-auto">
-                    <div class="row align-items-center">{$Think.now}</div>
-                </div>
-                <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-                    Copyright © 2018 <a href=".">{$Think.config.hello.title}</a>. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
-</div>
-<div hidden><script src="https://s13.cnzz.com/z_stat.php?id=1273772622&web_id=1273772622" language="JavaScript"></script></div>
-<script type="text/javascript" src="/assets/js/require.min.js"></script>
-<script type="text/javascript" src="/static/js/global.js?3"></script>
-{block name="script"}{/block}
+    <div hidden>
+        <script src="https://s13.cnzz.com/z_stat.php?id=1273772622&web_id=1273772622" language="JavaScript"></script>
+    </div>
+    <script type="text/javascript" src="/assets/js/require.min.js"></script>
+    <script type="text/javascript" src="/static/js/global.js?3"></script>
+    {block name="script"}{/block}
 </body>
+
 </html>

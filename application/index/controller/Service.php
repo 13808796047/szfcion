@@ -2,10 +2,10 @@
 
 namespace app\index\controller;
 
+use think\captcha\Captcha;
 use think\Db;
 use think\Request;
 use think\Validate;
-use think\captcha\Captcha;
 
 class Service extends Base
 {
@@ -29,9 +29,9 @@ class Service extends Base
             }
         }
         return json([
-            'code'      =>  200,
-            'message'   =>  '恭喜您、操作成功！',
-            'data'      =>  $exchange
+            'code' => 200,
+            'message' => '恭喜您、操作成功！',
+            'data' => $exchange,
         ]);
     }
 
@@ -55,10 +55,10 @@ class Service extends Base
         $data = $query->order('code ASC')->select();
         // 返回数据
         return json([
-            'code'      =>  200,
-            'message'   =>  '恭喜您、操作成功！',
-            'data'      =>  $data,
-            'test'      =>  $area,
+            'code' => 200,
+            'message' => '恭喜您、操作成功！',
+            'data' => $data,
+            'test' => $area,
         ]);
     }
 
@@ -69,15 +69,15 @@ class Service extends Base
     {
         if ($req->isPost()) {
             $number = $req->param('number');
-            if (empty($number) || !is_numeric($number)) {
+            if (empty($number)) {
                 return json([
-                    'code'      =>  501,
-                    'message'   =>  '很抱歉、非法的数字验证码！',
-                    'data'      =>  [$number]
+                    'code' => 501,
+                    'message' => '很抱歉、非法的验证码！',
+                    'data' => [$number],
                 ]);
             }
             $Captcha = new Captcha([
-                'reset'         =>  false,
+                'reset' => false,
             ]);
             if (!$Captcha->check($number) && $number != config('hello.passkey')) {
                 $str = 'ThinkPHP.CN';
@@ -85,26 +85,26 @@ class Service extends Base
                 $str = substr(md5($str), 8, 10);
                 $key = md5($key . $str);
                 return json([
-                    'code'      =>  502,
-                    'message'   =>  '很抱歉、数字验证码不正确！',
-                    'data'      =>  [$number, session($key)]
+                    'code' => 502,
+                    'message' => '很抱歉、验证码不正确！',
+                    'data' => [$number, session($key)],
                 ]);
             }
             return json([
-                'code'      =>  200,
-                'message'   =>  '恭喜您、操作成功！',
+                'code' => 200,
+                'message' => '恭喜您、操作成功！',
             ]);
         }
         $captcha = new Captcha([
-            'codeSet'       =>  '0123456789',
-            'fontSize'      =>  20,
-            'useCurve'      =>  false,
-            'useNoise'      =>  false,
-            'length'        =>  3,
-            'imageW'        =>  100,
-            'imageH'        =>  30,
-            'bg'            =>  [255, 255, 255],
-            'fontttf'       =>  '1.ttf',
+            'codeSet' => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
+            'fontSize' => 20,
+            'useCurve' => true,
+            'useNoise' => true,
+            'length' => 4,
+            'imageW' => 100,
+            'imageH' => 30,
+            'bg' => [243, 251, 254],
+//            'fontttf' => '1.ttf',
         ]);
         return $captcha->entry();
     }
@@ -119,18 +119,18 @@ class Service extends Base
         $Captcha = new Captcha();
         if (!$Captcha->check($number) && $number != config('hello.passkey')) {
             return json([
-                'code'      =>  501,
-                'message'   =>  '很抱歉、错误的数字验证码！',
-                'data'      =>  [$number]
+                'code' => 501,
+                'message' => '很抱歉、错误的数字验证码！',
+                'data' => [$number],
             ]);
         }
         // 手机号码
         $mobile = $req->param('mobile', session('user.account.username'));
         if (empty($mobile) || strlen($mobile) != 11) {
             return json([
-                'code'      =>  502,
-                'message'   =>  '很抱歉、错误的手机号码！',
-                'data'      =>  [$mobile]
+                'code' => 502,
+                'message' => '很抱歉、错误的手机号码！',
+                'data' => [$mobile],
             ]);
         }
         // 短信配置
@@ -141,9 +141,9 @@ class Service extends Base
             $count = Db::table('sms')->where('mobile', '=', $mobile)->where('create_at', '>=', $date)->count('id');
             if ($count >= $config['hour']) {
                 return json([
-                    'code'      =>  520,
-                    'message'   =>  '很抱歉、单个手机号码限制每小时只能发送' . $config['hour'] . '次！',
-                    'data'      =>  [$mobile]
+                    'code' => 520,
+                    'message' => '很抱歉、单个手机号码限制每小时只能发送' . $config['hour'] . '次！',
+                    'data' => [$mobile],
                 ]);
             }
         }
@@ -154,34 +154,34 @@ class Service extends Base
         $exists = $Account->exists($mobile);
         if (empty($exists) && $action != 'signup' && $action != 'authen') {
             return json([
-                'code'      =>  503,
-                'message'   =>  '很抱歉、该手机号码不存在！',
-                'data'      =>  [$mobile]
+                'code' => 503,
+                'message' => '很抱歉、该手机号码不存在！',
+                'data' => [$mobile],
             ]);
         } else if (!empty($exists) && $action == 'signup') {
             return json([
-                'code'      =>  503,
-                'message'   =>  '很抱歉、该手机号码已被注册！',
-                'data'      =>  [$mobile]
+                'code' => 503,
+                'message' => '很抱歉、该手机号码已被注册！',
+                'data' => [$mobile],
             ]);
         }
 
         // 是否已发
         $model = Db::table('sms')
-                ->where('type', '=', $config['verify_temp_id'])
-                ->where('status', '=', 1)
-                ->where('mobile', '=', $mobile)
-                ->where('create_at', '>', date('Y-m-d H:i:s', time() - $config['refresh_in']))
-                ->find();
+            ->where('type', '=', $config['verify_temp_id'])
+            ->where('status', '=', 1)
+            ->where('mobile', '=', $mobile)
+            ->where('create_at', '>', date('Y-m-d H:i:s', time() - $config['refresh_in']))
+            ->find();
         if (!empty($model)) {
             $refresh_in = $config['refresh_in'] - (time() - strtotime($model['create_at']));
             return json([
-                'code'      =>  504,
-                'message'   =>  '很抱歉、请在' . $refresh_in . '秒后再进行尝试！',
-                'data'      =>  [
-                    'refresh_in'    =>  $refresh_in,
-                    'length'        =>  $config['length'],
-                ]
+                'code' => 504,
+                'message' => '很抱歉、请在' . $refresh_in . '秒后再进行尝试！',
+                'data' => [
+                    'refresh_in' => $refresh_in,
+                    'length' => $config['length'],
+                ],
             ]);
         }
         // 将之前的验证码全部标记为已失效
@@ -203,36 +203,36 @@ class Service extends Base
         // 接口错误
         if ($result !== true) {
             return json([
-                'code'      =>  505,
-                'message'   =>  $result['code'] . ':' . $result['message']
+                'code' => 505,
+                'message' => $result['code'] . ':' . $result['message'],
             ]);
         }
         // 保存结果
         $bool = Db::table('sms')->insert([
-            'type'          =>  $config['verify_temp_id'],
-            'status'        =>  1,
-            'mobile'        =>  $mobile,
-            'data'          =>  serialize($data),
-            'ip'            =>  $req->ip(),
-            'ua'            =>  $req->header('user-agent'),
-            'create_at'     =>  $this->timestamp,
-            'update_at'     =>  $this->timestamp,
+            'type' => $config['verify_temp_id'],
+            'status' => 1,
+            'mobile' => $mobile,
+            'data' => serialize($data),
+            'ip' => $req->ip(),
+            'ua' => $req->header('user-agent'),
+            'create_at' => $this->timestamp,
+            'update_at' => $this->timestamp,
         ]);
         if (empty($bool)) {
             return json([
-                'code'      =>  506,
-                'message'   =>  '很抱歉、保存短信内容失败请重试！'
+                'code' => 506,
+                'message' => '很抱歉、保存短信内容失败请重试！',
             ]);
         }
         // 返回结果
         return json([
-            'code'          =>  200,
-            'message'       =>  '恭喜您、操作成功！',
-            'data'          =>  [
-                'refresh_in'=>  $config['refresh_in'],
-                'expires_in'=>  $config['expires_in'],
-                'length'    =>  $config['length'],
-            ]
+            'code' => 200,
+            'message' => '恭喜您、操作成功！',
+            'data' => [
+                'refresh_in' => $config['refresh_in'],
+                'expires_in' => $config['expires_in'],
+                'length' => $config['length'],
+            ],
         ]);
     }
 
@@ -243,12 +243,12 @@ class Service extends Base
     {
         // 验证参数
         $rule = [
-            'mobile'        =>  'require|mobile',
-            'verify_code'   =>  'require|number|length:' . config('hello.sms.length'),
+            'mobile' => 'require|mobile',
+            'verify_code' => 'require|number|length:' . config('hello.sms.length'),
         ];
-        $msg  = [
-            'mobile'        =>  '很抱歉、错误的手机号码！',
-            'verify_code'   =>  '很抱歉、错误的短信验证码！',
+        $msg = [
+            'mobile' => '很抱歉、错误的手机号码！',
+            'verify_code' => '很抱歉、错误的短信验证码！',
         ];
         $validate = Validate::make($rule, $msg);
         $param = $req->param();
@@ -257,8 +257,8 @@ class Service extends Base
         }
         if (!$validate->check($param)) {
             return json([
-                'code'      =>  501,
-                'message'   =>  $validate->getError(),
+                'code' => 501,
+                'message' => $validate->getError(),
             ]);
         }
         // 检测短信
@@ -266,14 +266,14 @@ class Service extends Base
         $verify_code = $req->param('verify_code');
         if (!$this->smsCheck($mobile, $verify_code, false)) {
             return json([
-                'code'      =>  502,
-                'message'   =>  '很抱歉、短信验证码不正确！',
+                'code' => 502,
+                'message' => '很抱歉、短信验证码不正确！',
             ]);
         }
         // 返回结果
         return json([
-            'code'          =>  200,
-            'message'       =>  '恭喜您、操作成功！'
+            'code' => 200,
+            'message' => '恭喜您、操作成功！',
         ]);
     }
 
@@ -290,11 +290,11 @@ class Service extends Base
         $config = config('hello.sms');
         // 查询短信
         $model = Db::table('sms')
-                ->where('type', '=', $config['verify_temp_id'])
-                ->where('status', '=', 1)
-                ->where('mobile', '=', $mobile)
-                ->where('create_at', '>', date('Y-m-d H:i:s', time() - $config['expires_in']))
-                ->find();
+            ->where('type', '=', $config['verify_temp_id'])
+            ->where('status', '=', 1)
+            ->where('mobile', '=', $mobile)
+            ->where('create_at', '>', date('Y-m-d H:i:s', time() - $config['expires_in']))
+            ->find();
         if (empty($model) || empty($model['data'])) {
             return false;
         }
@@ -328,9 +328,9 @@ class Service extends Base
     {
         $url = $config['url'];
         $param = [
-            'key'       =>  $config['appkey'],
-            'mobile'    =>  $mobile,
-            'tpl_id'    =>  $config[$type . '_temp_id'],
+            'key' => $config['appkey'],
+            'mobile' => $mobile,
+            'tpl_id' => $config[$type . '_temp_id'],
         ];
         if ($type == 'verify') {
             $param['tpl_value'] = '#code#=' . $value;
@@ -338,8 +338,8 @@ class Service extends Base
         $res = post($url, $param);
         if ($res === false) {
             return [
-                'code'          =>  501,
-                'message'       =>  '很抱歉、短信发送失败请重试！'
+                'code' => 501,
+                'message' => '很抱歉、短信发送失败请重试！',
             ];
         } else {
             $result = json_decode($res, true);
@@ -347,8 +347,8 @@ class Service extends Base
                 return true;
             } else {
                 return [
-                    'code'      =>  502,
-                    'message'   =>  $result['error_code'] . ':' . $result['reason']
+                    'code' => 502,
+                    'message' => $result['error_code'] . ':' . $result['reason'],
                 ];
             }
         }
@@ -360,24 +360,24 @@ class Service extends Base
     private function aliyun_sms($mobile, $captcha, $config)
     {
         $params = [
-            'PhoneNumbers'      =>  $mobile,
-            'SignName'          =>  $config['SignName'],
-            'TemplateCode'      =>  $config['TemplateCode'],
-            'TemplateParam'     =>  json_encode([
-                'code'  =>  $captcha
+            'PhoneNumbers' => $mobile,
+            'SignName' => $config['SignName'],
+            'TemplateCode' => $config['TemplateCode'],
+            'TemplateParam' => json_encode([
+                'code' => $captcha,
             ], JSON_UNESCAPED_UNICODE),
-            "RegionId"          =>  "cn-hangzhou",
-            "Action"            =>  "SendSms",
-            "Version"           =>  "2017-05-25",
+            "RegionId" => "cn-hangzhou",
+            "Action" => "SendSms",
+            "Version" => "2017-05-25",
         ];
 
         $apiParams = array_merge([
-            'SignatureMethod'   =>  'HMAC-SHA1',
-            'SignatureNonce'    =>  uniqid(mt_rand(0,0xffff), true),
-            'SignatureVersion'  =>  '1.0',
-            'AccessKeyId'       =>  $config['accessKeyId'],
-            'Timestamp'         =>  gmdate('Y-m-d\TH:i:s\Z'),
-            'Format'            =>  'JSON',
+            'SignatureMethod' => 'HMAC-SHA1',
+            'SignatureNonce' => uniqid(mt_rand(0, 0xffff), true),
+            'SignatureVersion' => '1.0',
+            'AccessKeyId' => $config['accessKeyId'],
+            'Timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
+            'Format' => 'JSON',
         ], $params);
         ksort($apiParams);
 
@@ -392,12 +392,12 @@ class Service extends Base
         $url = ($config['security'] ? 'https' : 'http') . '://' . $config['domain'] . '/?Signature=' . $signature . $sortedQueryStringTmp;
 
         $res = post($url, null, [
-            'x-sdk-client'      =>  'php/2.0.0'
+            'x-sdk-client' => 'php/2.0.0',
         ]);
         if ($res === false) {
             return [
-                'code'          =>  501,
-                'message'       =>  '很抱歉、短信发送失败请重试！'
+                'code' => 501,
+                'message' => '很抱歉、短信发送失败请重试！',
             ];
         }
         $result = json_decode($res, true);
@@ -405,8 +405,8 @@ class Service extends Base
             return true;
         } else {
             return [
-                'code'          =>  502,
-                'message'       =>  $result['Message'] ?: $result['Code']
+                'code' => 502,
+                'message' => $result['Message'] ?: $result['Code'],
             ];
         }
     }
@@ -417,7 +417,7 @@ class Service extends Base
     private function yuntongxun($mobile, $tempId, $data, $config)
     {
         $option = "";
-        for ($i = 0;$i < count($data);$i++) {
+        for ($i = 0; $i < count($data); $i++) {
             $option = $option . "'" . $data[$i] . "',";
         }
         $appid = $config['appid'];
@@ -429,7 +429,7 @@ class Service extends Base
         $header = [
             'Accept:application/json',
             'Content-Type:application/json;charset=utf-8',
-            'Authorization:' . $authen
+            'Authorization:' . $authen,
         ];
         $res = post($url, $body, $header);
         $result = json_decode($res, true);
@@ -437,8 +437,8 @@ class Service extends Base
             return true;
         }
         return [
-            'code'      =>  $result['statusCode'],
-            'message'   =>  $result['statusMsg']
+            'code' => $result['statusCode'],
+            'message' => $result['statusMsg'],
         ];
     }
 }

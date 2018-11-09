@@ -1,10 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
+    <meta name="keywords" content="比特币挖矿机,蚂蚁矿机,阿瓦隆矿机,暴风比特,FCC,数字翡翠,翡翠">
+    <meta name="description" content="FCC是全球领先的数字资产交易平台，成立于2018年，目前提供超过百种数字资产的交易及投资，交易平台包含FCC币交易、币币交易、创新数字货币以及杠杆交易板块。">
     <meta name="renderer" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="format-detection" content="telephone=no, email=no"/>
+    <meta name="format-detection" content="telephone=no, email=no" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover, shrink-to-fit=no" />
     <meta http-equiv="Content-Language" content="en" />
     <meta name="msapplication-TileColor" content="#2d89ef" />
@@ -22,7 +25,7 @@
     <title>{block name="title"}Title{/block}</title>
     {block name="style"}{/block}
     <style>
-    @media (max-width: 320px) {
+        @media (max-width: 320px) {
         #headerMenuCollapse .nav-item {
             padding: 0 .6rem;
         }
@@ -31,70 +34,82 @@
         opacity: 0;pointer-events: none;
     }
     </style>
-    <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f98b4156.js","daovoice")</script>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i["DaoVoiceObject"] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        a.charset = "utf-8";
+        m.parentNode.insertBefore(a, m)
+    })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f98b4156.js", "daovoice")
+    </script>
 </head>
 
 <body>
-<!-- content -->
-<div class="page">
-    <div class="page-main">
-        <div class="header py-4">
-            <div class="container">
-                <div class="d-flex">
-                    <a class="header-brand" href="/account.html"><img src="/static/image/logo.png" class="header-brand-img" alt="tabler logo"></a>
-                    <div class="d-flex order-lg-2 ml-auto">
-                        <div class="nav-item d-xs-flex">
-                            {neq name="Think.session.platform" value="app"}
-                            {notempty name="Think.config.hello.appurl"}
+    <!-- content -->
+    <div class="page">
+        <div class="page-main">
+            <div class="header py-4">
+                <div class="container">
+                    <div class="d-flex">
+                        <a class="header-brand" href="/account.html"><img src="/static/image/logo.png" class="header-brand-img" alt="tabler logo"></a>
+                        <div class="d-flex order-lg-2 ml-auto">
+                            <div class="nav-item d-xs-flex">
+                                {neq name="Think.session.platform" value="app"}
+                                {notempty name="Think.config.hello.appurl"}
                                 {eq name="platform" value="android"}
-                                    <a href="{$Think.config.hello.appurl}" target="_blank" class="btn btn-sm btn-outline-success btn-app-download">APP 下载</a>
+                                <a href="{$Think.config.hello.appurl}" target="_blank" class="btn btn-sm btn-outline-success btn-app-download">APP 下载</a>
                                 {/eq}
-                            {else /}
+                                {else /}
                                 <a href="javascript:;" class="btn btn-sm btn-outline-success btn-app-download" data-toggle="tooltip" data-original-title="敬请期待">APP 下载</a>
-                            {/notempty}
-                            {/neq}
-                        </div>
-                        <div class="d-xs-flex">
-                            <a class="nav-link icon" href="/news.html"><i class="fe fe-bell"></i></a>
-                        </div>
-                        <div class="dropdown">
-                            <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                                {/notempty}
+                                {/neq}
+                            </div>
+                            <div class="d-xs-flex">
+                                <a class="nav-link icon" href="/news.html"><i class="fe fe-bell"></i></a>
+                            </div>
+                            <div class="dropdown">
+                                <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                                 <span class="avatar me-avatar" style="background-image: url({:avatar($Think.session.user.profile.avatar, $Think.session.user.profile.idcard)});"><span class="avatar-status bg-green"></span></span>
                                 <span class="ml-2 d-none d-lg-block">
                                     <span class="text-default">{$Think.session.user.profile.nickname}</span>
                                     <small class="text-muted d-block mt-1">{$Think.config.hello.level[$Think.session.user.account.type]['name']}</small>
                                 </span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" href="/account/profile.html">
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                    <a class="dropdown-item" href="/account/profile.html">
                                     <i class="dropdown-icon fe fe-user"></i> 个人资料
                                 </a>
-                                <a class="dropdown-item" href="/account/reset.html">
+                                    <a class="dropdown-item" href="/account/reset.html">
                                     <i class="dropdown-icon fe fe-lock"></i> 修改密码
                                 </a>
-                                <a class="dropdown-item" href="/account/authen.html">
+                                    <a class="dropdown-item" href="/account/authen.html">
                                     <i class="dropdown-icon fe fe-shield"></i> 实名认证
                                 </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/help.html">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/help.html">
                                     <i class="dropdown-icon fe fe-help-circle"></i> 帮助文档
                                 </a>
-                                <a class="dropdown-item" href="/signout.html">
+                                    <a class="dropdown-item" href="/signout.html">
                                     <i class="dropdown-icon fe fe-log-out"></i> 退出登录
                                 </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+                        <!-- <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
                         <span class="header-toggler-icon"></span>
                     </a> -->
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
-            <div class="container">
-                <div class="row align-items-center">
-                    <!-- <div class="col-lg-3 ml-auto header-search-div">
+            <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <!-- <div class="col-lg-3 ml-auto header-search-div">
                         <form class="input-icon my-3 my-lg-0">
                             <input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
                             <div class="input-icon-addon">
@@ -102,91 +117,94 @@
                             </div>
                         </form>
                     </div> -->
-                    <div class="col-lg order-lg-first">
-                        <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
-                            <li class="nav-item">
-                                <a href="/account.html" class="nav-link{$Request.path == 'account' || $Request.path == '' ? ' active' : ''}">
+                        <div class="col-lg order-lg-first">
+                            <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                                <li class="nav-item">
+                                    <a href="/account.html" class="nav-link{$Request.path == 'account' || $Request.path == '' ? ' active' : ''}">
                                     <span><i class="fe fe-home"></i></span>
                                     <span>首页</span>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/team.html" class="nav-link{$Request.path == 'team' ? ' active' : ''}">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/team.html" class="nav-link{$Request.path == 'team' ? ' active' : ''}">
                                     <span><i class="fe fe-users"></i></span>
                                     <span>团队</span>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/machine.html" class="nav-link{$Request.path == 'machine' ? ' active' : ''}">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/machine.html" class="nav-link{$Request.path == 'machine' ? ' active' : ''}">
                                     <span><i class="fe fe-cpu"></i></span>
                                     <span>矿机</span>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/market.html" class="nav-link{$Request.path == 'market' ? ' active' : ''}">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/market.html" class="nav-link{$Request.path == 'market' ? ' active' : ''}">
                                     <span><i class="fe fe-globe"></i></span>
                                     <span>市场</span>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/store.html" class="nav-link{$Request.path == 'store' ? ' active' : ''}">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/store.html" class="nav-link{$Request.path == 'store' ? ' active' : ''}">
                                     <span><i class="fe fe-shopping-cart"></i></span>
                                     <span>商城</span>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="javascript:daovoice('openMessages');" class="nav-link{$Request.path == 'kefu' ? ' active' : ''}">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:daovoice('openMessages');" class="nav-link{$Request.path == 'kefu' ? ' active' : ''}">
                                     <span><i class="fe fe-headphones"></i></span>
                                     <span>客服</span>
                                 </a>
-                            </li>
-                            <li hidden class="nav-item d-md-block d-lg-block">
-                                <a href="/help.html" class="nav-link{$Request.path == 'help' ? ' active' : ''}">
+                                </li>
+                                <li hidden class="nav-item d-md-block d-lg-block">
+                                    <a href="/help.html" class="nav-link{$Request.path == 'help' ? ' active' : ''}">
                                     <span><i class="fe fe-help-circle"></i></span>
                                     <span>帮助</span>
                                 </a>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {block name="carousel"}{/block}
-        <div class="my-3 my-md-5">
-            <div class="container container-padding">
-                {block name="container"}{/block}
+            {block name="carousel"}{/block}
+            <div class="my-3 my-md-5">
+                <div class="container container-padding">
+                    {block name="container"}{/block}
+                </div>
             </div>
         </div>
+        <footer class="footer d-xs-none d-sm-none d-lg-block">
+            <div class="container">
+                <div class="row align-items-center flex-row-reverse">
+                    <div class="col-auto ml-lg-auto">
+                        <div class="row align-items-center">{$Think.now}</div>
+                    </div>
+                    <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
+                        Copyright © 2018 <a href=".">{$Think.config.hello.title}</a>. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-    <footer class="footer d-xs-none d-sm-none d-lg-block">
-        <div class="container">
-            <div class="row align-items-center flex-row-reverse">
-                <div class="col-auto ml-lg-auto">
-                    <div class="row align-items-center">{$Think.now}</div>
-                </div>
-                <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-                    Copyright © 2018 <a href=".">{$Think.config.hello.title}</a>. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
-</div>
-<div hidden><script src="https://s13.cnzz.com/z_stat.php?id=1273772622&web_id=1273772622" language="JavaScript"></script></div>
-<script type="text/javascript" src="/assets/js/require.min.js"></script>
-<script type="text/javascript" src="/static/js/global.js?4"></script>
-<script>
-daovoice('init', {
-    app_id: "f98b4156",
-    user_id: "{$Think.session.user.account.uid}",
-    name: "{$Think.session.user.profile.nickname}",
-}, {
-    launcher: {
-        disableLauncherIcon: false,
-        defaultEnterView: 'list',
-    }
-});
-daovoice('update');
-</script>
-{block name="script"}{/block}
+    <div hidden>
+        <script src="https://s13.cnzz.com/z_stat.php?id=1273772622&web_id=1273772622" language="JavaScript"></script>
+    </div>
+    <script type="text/javascript" src="/assets/js/require.min.js"></script>
+    <script type="text/javascript" src="/static/js/global.js?4"></script>
+    <script>
+    daovoice('init', {
+        app_id: "f98b4156",
+        user_id: "{$Think.session.user.account.uid}",
+        name: "{$Think.session.user.profile.nickname}",
+    }, {
+        launcher: {
+            disableLauncherIcon: false,
+            defaultEnterView: 'list',
+        }
+    });
+    daovoice('update');
+    </script>
+    {block name="script"}{/block}
 </body>
+
 </html>

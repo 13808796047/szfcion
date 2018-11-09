@@ -2,42 +2,42 @@
 {block name="title"}Sign Up{/block}
 {block name="style"}{/block}
 {block name="avatar"}
-	{notempty name="Think.get.avatar"}
-	<img class="avatar" src="{$Think.get.avatar}" />
-	{/notempty}
+{notempty name="Think.get.avatar"}
+<img class="avatar" src="{$Think.get.avatar}" />
+{/notempty}
 {/block}
 {block name="form"}
 <div class="card signup" method="post">
-    <div class="card-body p-6">
-    	<div class="dimmer">
-	    	<div class="loader"></div>
-	    	<div class="dimmer-content basic">
-	    		{notempty name="Think.config.hello.oauth.qq.enable"}
-	    			<a hidden href="/oauth/qq/login.html" class="quick quick-qq"><i class="fa fa-qq mr-1"></i></a>
-	    		{/notempty}
-	    		{notempty name="Think.config.hello.oauth.wechat.enable"}
-	    			<a hidden href="/oauth/wechat/login.html" class="quick quick-wechat"><i class="fa fa-wechat mr-1"></i></a>
-	    		{/notempty}
-		        <div class="card-title">
-		        	{notempty name="Think.get.nickname"}
-		        		<div class="lead">{$Think.get.nickname}，欢迎你！</div>
-		        	{else /}
-		        		<div class="lead">注册新账户</div>
-		        	{/notempty}
-		        	<div class="text-muted">首先，您需要进行身份验证！</div>
-		        </div>
-		        <div class="form-group">
+	<div class="card-body p-6">
+		<div class="dimmer">
+			<div class="loader"></div>
+			<div class="dimmer-content basic">
+				{notempty name="Think.config.hello.oauth.qq.enable"}
+				<a hidden href="/oauth/qq/login.html" class="quick quick-qq"><i class="fa fa-qq mr-1"></i></a>
+				{/notempty}
+				{notempty name="Think.config.hello.oauth.wechat.enable"}
+				<a hidden href="/oauth/wechat/login.html" class="quick quick-wechat"><i class="fa fa-wechat mr-1"></i></a>
+				{/notempty}
+				<div class="card-title">
+					{notempty name="Think.get.nickname"}
+					<div class="lead">{$Think.get.nickname}，欢迎你！</div>
+					{else /}
+					<div class="lead">注册新账户</div>
+					{/notempty}
+					<div class="text-muted">首先，您需要进行身份验证！</div>
+				</div>
+				<div class="form-group">
 					<label hidden class="form-label d-sm-block">手机号码</label>
 					<input type="tel" maxlength="11" name="username" class="form-control" placeholder="手机号码" />
 				</div>
 				<div class="input-group">
-		        	<input type="text" class="form-control" maxlength="3" name="captcha" placeholder="验证码" />
-		        	<span class="input-group-append" id="basic-addon2">
-		            	<span class="input-group-text captcha-touch">
-		            		<img src="{:url('service/captcha')}" class="captcha" />
-		            	</span>
-		        	</span>
-		        </div>
+					<input type="text" class="form-control" maxlength="4" name="captcha" placeholder="验证码" />
+					<span class="input-group-append" id="basic-addon2" style="cursor: pointer" >
+						<span class="input-group-text captcha-touch p-1">
+							<img src="{:url('service/captcha')}" class="captcha w-100 h-100" />
+						</span>
+					</span>
+				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<input type="text" class="form-control" maxlength="6" name="verify_code" placeholder="手机验证码" />
@@ -49,91 +49,95 @@
 				<div class="form-group">
 					<label hidden class="form-label d-sm-block">邀请人</label>
 					{empty name="Think.get.i"}
-						<input type="text" maxlength="11" name="inviter" class="form-control" placeholder="邀请码{$Think.config.hello.inviter.enable?'':'、选填'}" />
+					<input type="text" maxlength="11" name="inviter" class="form-control" placeholder="邀请码{$Think.config.hello.inviter.enable?'':'、选填'}" />
 					{else /}
-						<input type="text" maxlength="11" name="inviter" readonly="true" class="form-control" value="{$Think.get.i}" />
+					<input type="text" maxlength="11" name="inviter" readonly="true" class="form-control" value="{$Think.get.i}" />
 					{/empty}
 				</div>
 				<div class="form-footer">
 					<button type="submit" class="btn btn-primary btn-block">立即注册</button>
 					<!-- <a href=""><img src="https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon48_wx_button.png" alt=""></a> -->
 				</div>
-	    	</div>
-	    	<div hidden class="dimmer-content pwd">
-	    		<div class="card-title">
-	    			<div class="lead">接下来</div>
-		        	<div class="text-muted">请为您的账户设置密码</div>
-	    		</div>
-	    		<div class="form-group">
-	    			<label hidden class="form-label d-sm-block">登录密码</label>
-	    			<input type="password" maxlength="32" name="password" class="form-control" placeholder="登录密码" />
-	    		</div>
-	    		<div class="form-group">
-	    			<label hidden class="form-label d-sm-block">确认登录密码</label>
-	    			<input type="password" maxlength="32" name="confirm" class="form-control" placeholder="再输入一次登录密码" />
-	    		</div>
-	    		<div class="form-group">
-	    			<label hidden class="form-label d-sm-block">安全密码</label>
-	    			<input type="password" maxlength="32" name="safeword" class="form-control" placeholder="安全密码" />
-	    		</div>
-	    		<div class="form-group">
-	    			<label hidden class="form-label d-sm-block">确认安全密码</label>
-	    			<input type="password" maxlength="32" name="safewordConfirm" class="form-control" placeholder="再输入一次安全密码" />
-	    		</div>
-	    		<div class="form-footer">
-	    			<div class="d-flex">
+			</div>
+			<div hidden class="dimmer-content pwd">
+				<div class="card-title">
+					<div class="lead">接下来</div>
+					<div class="text-muted">请为您的账户设置密码</div>
+				</div>
+				<div class="form-group">
+					<label hidden class="form-label d-sm-block">登录密码</label>
+					<input type="password" maxlength="32" name="password" class="form-control" placeholder="登录密码" />
+				</div>
+				<div class="form-group">
+					<label hidden class="form-label d-sm-block">确认登录密码</label>
+					<input type="password" maxlength="32" name="confirm" class="form-control" placeholder="再输入一次登录密码" />
+				</div>
+				<div class="form-group">
+					<label hidden class="form-label d-sm-block">安全密码</label>
+					<input type="password" maxlength="32" name="safeword" class="form-control" placeholder="安全密码" />
+				</div>
+				<div class="form-group">
+					<label hidden class="form-label d-sm-block">确认安全密码</label>
+					<input type="password" maxlength="32" name="safewordConfirm" class="form-control" placeholder="再输入一次安全密码" />
+				</div>
+				<div class="form-footer">
+					<div class="d-flex">
 						<button type="submit" class="btn btn-primary w-45">完成</button>
 						<button type="button" class="btn btn-secondary btn-skip w-45 ml-auto">跳过</button>
 					</div>
 				</div>
-	    	</div>
-	    	<div hidden class="dimmer-content alert success mb-0">
+			</div>
+			<div hidden class="dimmer-content alert success mb-0">
 				<h4>恭喜您</h4>
 				<p class="mb-2">账户注册成功啦！</p>
 				<p class="mb-2">请记住您的密码：</p>
 				<p class="text-blue mb-2"><b>123456</b></p>
 				<p class="mb-0"><span class="s">-</span>秒 后将自动 <a href="/account.html">进入首页</a></p>
-	    	</div>
-    	</div>
-    	{notempty name="Think.config.hello.oauth.wechat.enable"}
-    	<div hidden class="oauth oauth-wechat">
-    		<button type="button" class="close oauth-close"></button>
-    		<div class="alert alert-icon">
-    			<i class="fe fe-bell mr-2" aria-hidden="true"></i> 系统检测到您正在使用微信访问，是否通过微信进行注册？
-    			<p class="text-blue mt-3"><a class="oauth-close">谢谢，不必了</a></p>
-    			<p class="text-muted mt-3"><span class="oauth-time"></span> 秒后自动关闭</p>
-    		</div>
-    		<a href="/oauth/wechat/login.html" class="btn btn-success btn-login"><i class="fa fa-wechat mr-1"></i> 通过微信注册</a>
-    	</div>
-    	{/notempty}
-    	{notempty name="Think.config.hello.oauth.qq.enable"}
-    	<div hidden class="oauth oauth-qq">
-    		<button type="button" class="close oauth-close"></button>
-    		<div class="alert alert-icon">
-    			<i class="fe fe-bell mr-2" aria-hidden="true"></i> 系统检测到您正在使用QQ访问，是否通过QQ进行注册？
-    			<p class="text-blue mt-3"><a class="oauth-close">谢谢，不必了</a></p>
-    			<p class="text-muted mt-3"><span class="oauth-time"></span> 秒后自动关闭</p>
-    		</div>
-    		<a href="/oauth/qq/login.html" class="btn btn-success btn-login"><i class="fa fa-qq mr-1"></i> 通过QQ注册</a>
-    	</div>
-    	{/notempty}
-    </div>
+			</div>
+		</div>
+		{notempty name="Think.config.hello.oauth.wechat.enable"}
+		<div hidden class="oauth oauth-wechat">
+			<button type="button" class="close oauth-close"></button>
+			<div class="alert alert-icon">
+				<i class="fe fe-bell mr-2" aria-hidden="true"></i> 系统检测到您正在使用微信访问，是否通过微信进行注册？
+				<p class="text-blue mt-3"><a class="oauth-close">谢谢，不必了</a></p>
+				<p class="text-muted mt-3"><span class="oauth-time"></span> 秒后自动关闭</p>
+			</div>
+			<a href="/oauth/wechat/login.html" class="btn btn-success btn-login"><i class="fa fa-wechat mr-1"></i> 通过微信注册</a>
+		</div>
+		{/notempty}
+		{notempty name="Think.config.hello.oauth.qq.enable"}
+		<div hidden class="oauth oauth-qq">
+			<button type="button" class="close oauth-close"></button>
+			<div class="alert alert-icon">
+				<i class="fe fe-bell mr-2" aria-hidden="true"></i> 系统检测到您正在使用QQ访问，是否通过QQ进行注册？
+				<p class="text-blue mt-3"><a class="oauth-close">谢谢，不必了</a></p>
+				<p class="text-muted mt-3"><span class="oauth-time"></span> 秒后自动关闭</p>
+			</div>
+			<a href="/oauth/qq/login.html" class="btn btn-success btn-login"><i class="fa fa-qq mr-1"></i> 通过QQ注册</a>
+		</div>
+		{/notempty}
+	</div>
 </div>
 <div class="text-center text-muted">
-{if empty($Request.param) }
+	{if empty($Request.param) }
 	已有账号了? <a href="/signin.html">立即登录</a>
-{else /}
+	{else /}
 	已有账号了? <a href="/signin.html?{:query($Request.query)}">立即登录</a>
-{/if}
+	{/if}
 </div>
 {/block}
 {block name="script"}
 <script type="text/javascript">
-var avatar = '{$Think.get.avatar}', nickname = '{$Think.get.nickname}', o = '{$Think.get.o}', reg_auto_down = '{$Think.config.hello.reg_auto_down}', appurl = '{$Think.config.hello.appurl}';
-var invite = {
-	enable: parseInt('{$Think.config.hello.inviter.enable|default=0}', 10),
-	anonymous: parseInt('{$Think.config.hello.inviter.anonymous|default=0}', 10),
-}
+	var avatar = '{$Think.get.avatar}',
+		nickname = '{$Think.get.nickname}',
+		o = '{$Think.get.o}',
+		reg_auto_down = '{$Think.config.hello.reg_auto_down}',
+		appurl = '{$Think.config.hello.appurl}';
+	var invite = {
+		enable: parseInt('{$Think.config.hello.inviter.enable|default=0}', 10),
+		anonymous: parseInt('{$Think.config.hello.inviter.anonymous|default=0}', 10),
+	}
 </script>
 <script src="/static/js/signup.js?3"></script>
 {/block}
