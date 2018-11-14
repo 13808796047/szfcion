@@ -1,0 +1,380 @@
+<?php /*a:1:{s:61:"C:\Users\123\Code\fcc\application\index\view\index\index.html";i:1541140645;}*/ ?>
+<!DOCTYPE html>
+<html class="no-js">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>数字翡翠FCC</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="Bookmark" href="/favicon.ico" />
+        <meta name="description" content="数字翡翠FCC">
+        <meta name="keywords" content="数字翡翠">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+        <link rel="stylesheet" href="/pc/css/style.css" />
+        <link rel="stylesheet" href="/pc/css/public.css" />
+        <script src="/pc/js/jquery-3.1.0.min.js"></script>
+        <!--  slick是一个基于jQuery的幻灯片插件,它支持响应式、支持移动设备滑动、支持桌面浏览器鼠标拖动、支持左右控制、支持动态添加、删除、过滤、支持自动播放、圆点、箭头 -->
+        <!-- http://kenwheeler.github.io/slick/  -->
+        <script type="text/javascript" src="/pc/js/slick.js"></script>
+        <script src="/pc/js/home.min.js"></script>
+        <!--<script type="text/javascript" src="/pc/js/all.min.js"></script>-->
+        <!--  Modernizr 是一个 JavaScript 库，用于检测用户浏览器的 HTML5 与 CSS3 特性  -->
+        <script src="/pc/js/modernizr-2.8.3.min.js"></script>
+        <!--[if lte IE 9]><!-->
+        <script src="/pc/js/html5shiv.min.js"></script>
+        <!--<![endif]-->
+    </head>
+
+    <body>
+
+        <div class="site cnc-index" id="cnc-index">
+            <div class="site-loader">
+                <div class="site-loader-spinner"></div>
+            </div>
+            <!-- .site-loader -->
+            <div class="site-canvas">
+                <!-- header start -->
+                <header class="site-header" id="header">
+                    <nav class="navbar navbar-theme">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#navbar-collapse" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <div class="navbar-brand-wrap">
+                                    <a class="navbar-brand" href="">
+                                        <!--
+                                    <img src="/pc/picture/logo-with-name-v2.png" alt=""> -->
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 中英文切换 -->
+                            <div class="user-prompt-item navbar-right" id="header-language-type">
+                                <a href="javascript:;" class="header-language-trigger slide_tip_trigger"
+                                    data-subordinate="#header-language-type.slide_tip_trigger">
+                                    <img src="/pc/picture/china.png" class="coin-language" alt="语言">
+                                    <i class="iconfont"></i>
+                                </a>
+                            </div>
+
+                            <!-- .navbar-header -->
+                            <div class="collapse navbar-collapse" id="navbar-collapse">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="active">
+                                        <a href="#home">首页</a>
+                                    </li>
+                                    <li>
+                                        <a href="#dapps">示例</a>
+                                    </li>
+                                    <li>
+                                        <a href="#development">路线</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sbchainwx">微信</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sbchainwx" target="_Blank">微博</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://www.fccion.com/" target="_Blank">登陆</a>
+                                    </li>
+                                    <li>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- .navbar-collapse -->
+                        </div>
+                    </nav>
+                </header>
+                <!-- header end -->
+                <main class="site-main clearfix">
+                    <!-- Home start -->
+                    <div id="home" class="section block-primary position-r align-c-xs-max">
+                        <div id="particles-js" class="site-bg">
+                            <div class="site-bg-img"></div>
+                            <div class="site-bg-video"></div>
+                            <div class="site-bg-overlay" style="background-color: rgba(27, 131, 170, 0.9);"></div>
+                            <div class="site-bg-effect layer" data-depth=".30"></div>
+                            <canvas class="site-bg-canvas layer" data-depth=".30"></canvas>
+                        </div>
+                        <!-- .site-bg -->
+                        <div class="container">
+                            <div class="row row-table">
+                                <div class="col-sm-6">
+                                    <div class="col-inner" data-sr="left">
+                                        <div class="section-heading">
+                                            <h1 style="font-size:36px">基于区块链技术及思想的去中心化
+                                                翡翠价值应用共享平台</h1>
+                                            <!-- <h2 style="font-size:28px; font-style: italic"> A decentralized metadata layer </h2> -->
+                                            <p>
+                                                数字翡翠是基于互联网区块链技术的底层协议，使用区块链技术独一无二的分散式记账、各环节可追溯的特征
+                                                为全球玉石爱好者搭建的翡翠防伪、防假、价值分享，以及藏品增值的共建、共享、共有平台。
+                                            </p>
+                                        </div>
+                                        <!-- .section-heading -->
+                                        <div class="section-content">
+                                            <div class="systems-button">
+                                                <div class="systems">
+
+                                                </div>
+
+                                                <!-- <div class="systems-options">
+                                                    <span class="systems-available">其它：</span>
+                                                    <a href="javascript:;"
+                                                       onclick="ga('send', 'event', { eventLabel: 'Mac', eventCategory: 'Download', eventAction: 'App'});">Mac</a>
+                                                    <a href="javascript:;">Source</a>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- .section-content -->
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-p-l-1 m-t-60-xs-max">
+                                <div class="col-inner clearfix">
+                                    <!-- <img class="img-responsive float-r-sm-min m-x-auto-xs-max"
+                                    src="/pc/picture/home_02.png" alt="" data-sr="right"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- Home end -->
+            <!-- 一楼 -->
+            <div class="index-features-files index-app clearfix">
+                <div class="container2">
+                    <div class="container1">
+                        <div class="col col-left">
+                            <div class="features">
+                                <div class="feature clearfix">
+                                    <div class="image">
+                                        <img alt="icon speed" height="37" src="/pc/picture/features_icon_fast.png"
+                                            width="39">
+                                    </div>
+                                    <div class="info">
+                                        <strong>底层协议</strong>
+                                        <div class="rich-text">
+                                            <p></p>
+                                            <p>
+                                                基于EVM(以太坊虚拟接)的256位模运算指令，集合以太坊合约获得验证succinct zero-knowledge proof的能力，形成
+                                                私密鉴别系统(privacy-perserving reputation）。
+                                            </p>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="feature clearfix">
+                                    <div class="image">
+                                        <img alt="icon security" height="39" src="/pc/picture/features_icon_secure.png"
+                                            width="39">
+                                    </div>
+                                    <div class="info">
+                                        <strong>参与用户</strong>
+                                        <div class="rich-text">
+                                            <p></p>
+                                            <p>
+                                                全球玉石爱好者、交易商、收藏者都可以建设者的身份参与
+                                            </p>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-right">
+                            <div class="info">
+                                <!-- <h3>Read more</h3> -->
+                                <h4>数字翡翠愿景 </h4>
+                                <div class="rich-text">
+                                    <p></p>
+                                    <p>
+                                        数字翡翠的本质是基于区块链技术在玉石、翡翠行业的技术落地应用。把区块链技术应用到翡翠行业，解决行业过去
+                                        真假难辨、货源不清、价值难断的痛点。让整个行业链条的用户以建设者的身份参与到这场数字革命里面，让整个行业链条
+                                        透明运作，货源可溯，价值可鉴。
+                                    </p>
+                                    <p>
+                                        数字翡翠希望让每一款翡翠、每一颗戒指、每一对镯子都实现生产地可溯，加工地可查，市场流通可寻，让每一个参与者
+                                        都能够在数字翡翠实现产品增值、保值，实现没有假货的行业愿景。
+                                    </p>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 二楼 -->
+            <div data-step='1' class="sectiondapps gray_section stepSection" id="dapps">
+                <div class="section_inner">
+                    <div class="deploy_dapps">
+                        <!--                     <div class="section_caption text_center">Dapps built on the FLO blockchain</div> -->
+                        <div class="sub_caption text_gray_2 text_center">产品应用案例</div>
+                        <div class="deploy_steps">
+                            <div class="deploy_step stepBtn step_1">
+                                <div class="alexandria">
+                                    <img src="/pc/picture/1.jpg" alt="" style="" class="avatar-img">
+                                </div>
+                                <div class="deploy_step_name">
+                                    <br />图一
+                                </div>
+                            </div>
+                            <div class="deploy_step stepBtn step_2">
+                                <div class="alexandria">
+                                    <img src="/pc/picture/2.jpg" alt="" style="" class="avatar-img">
+                                </div>
+                                <div class="deploy_step_name">
+                                    <br />图二
+                                </div>
+                            </div>
+                            <div class="deploy_step stepBtn step_3">
+                                <div class="alexandria">
+                                    <img src="/pc/picture/3.jpg" alt="" style="" class="avatar-img">
+                                </div>
+                                <div class="deploy_step_name">
+                                    <br />图三
+                                </div>
+                            </div>
+                            <div class="deploy_step stepBtn step_4">
+                                <div class="alexandria">
+                                    <img src="/pc/picture/4.jpg" alt="" style="" class="avatar-img">
+                                </div>
+                                <div class="deploy_step_name">
+                                    <br />图四
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 四个面板区域 -->
+            <div class="sectiondapps step_section stepSlider">
+                <div class="step_unit step_1">
+                    <div class="abs_container">
+                        <div class="gl_table_cell">
+                            <div class="section_inner">
+                                <div class="step_description">
+                                    <p>把区块链的技术特征应用到玉石、翡翠的生产、加工、流通、交易、收藏、拍卖等各个环节 </p>
+                                    <p>使之每一个成品都具有可追溯的原产地、可验证的加工者、可识别的价值标准</p>
+                                    <p>改变过去玉石、翡翠交易市场的货源不清、价值不明的行业痛点</p>
+                                    <p>让每一块玉石翡翠产品都冰清玉洁</p>
+                                    <p>让每一个行业参与者都不再雾里看花</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step_unit step_2">
+                    <div class="abs_container">
+                        <div class="gl_table_cell">
+                            <div class="section_inner">
+                                <div class="step_description">
+                                    <p>把区块链的技术特征应用到玉石、翡翠的生产、加工、流通、交易、收藏、拍卖等各个环节 </p>
+                                    <p>使之每一个成品都具有可追溯的原产地、可验证的加工者、可识别的价值标准</p>
+                                    <p>改变过去玉石、翡翠交易市场的货源不清、价值不明的行业痛点</p>
+                                    <p>让每一块玉石翡翠产品都冰清玉洁</p>
+                                    <p>让每一个行业参与者都不再雾里看花</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step_unit step_3">
+                    <div class="abs_container">
+                        <div class="gl_table_cell">
+                            <div class="section_inner">
+                                <div class="step_description">
+                                    <p>把区块链的技术特征应用到玉石、翡翠的生产、加工、流通、交易、收藏、拍卖等各个环节 </p>
+                                    <p>使之每一个成品都具有可追溯的原产地、可验证的加工者、可识别的价值标准</p>
+                                    <p>改变过去玉石、翡翠交易市场的货源不清、价值不明的行业痛点</p>
+                                    <p>让每一块玉石翡翠产品都冰清玉洁</p>
+                                    <p>让每一个行业参与者都不再雾里看花</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step_unit step_4">
+                    <div class="abs_container">
+                        <div class="gl_table_cell">
+                            <div class="section_inner">
+                                <div class="step_description">
+                                    <p>把区块链的技术特征应用到玉石、翡翠的生产、加工、流通、交易、收藏、拍卖等各个环节 </p>
+                                    <p>使之每一个成品都具有可追溯的原产地、可验证的加工者、可识别的价值标准</p>
+                                    <p>改变过去玉石、翡翠交易市场的货源不清、价值不明的行业痛点</p>
+                                    <p>让每一块玉石翡翠产品都冰清玉洁</p>
+                                    <p>让每一个行业参与者都不再雾里看花</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 路i线图 -->
+            <div class="development-step" id="development">
+                <div class="step-content">
+                    <h2 class="step-tit">数字翡翠路线图</h2>
+                    <div>
+                        <img style="width:100%" src="/pc/picture/roadmap.png" alt="step">
+                    </div>
+                </div>
+            </div>
+            <div class="development-step" id="sbchainwx">
+                <div class="step-content">
+                    <h2 class="step-tit">微信</h2>
+                    <div style="text-align: center">
+                        <img src="/pc/picture/wx.jpg" style="width: 250px"></img><br />
+                    </div>
+                </div>
+            </div>
+            <div class="development-step" id="sbchainwb">
+                <div class="step-content">
+                    <h2 class="step-tit"> 微博</a></h2>
+                    <div style="text-align: center">
+                        <img src="/pc/picture/wb.png" style="width: 200px"></img><br />
+                    </div>
+                </div>
+            </div>
+
+
+
+            </main>
+            <!-- footer -->
+            <footer class="site-footer block-invert">
+                <div class="container">
+                    <!-- <img class="site-footer-logo img-responsive" src="/pc/picture/logo-v1.png" data-sr="bottom"> -->
+                    <!-- <ul class="site-footer-social-list">
+                        <li>
+                            <a href="javascript:;" target="_blank">Facebook</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" target="_blank">Twitter</a>
+                        </li>
+                    </ul> -->
+                    <p class="site-footer-copyright">
+                        © CopyRight&nbsp;&nbsp;2018-2020,
+                        <br>
+                        <a href="#home"></a>&nbsp;&nbsp;Inc.&nbsp;All Rights Reserved.&nbsp;&nbsp;数字翡翠版权所有
+                    </p>
+                </div>
+            </footer>
+        </div>
+        </div>
+        <script type="text/javascript" src="/pc/js/script.min.8cf8fe3e.js"></script>
+        <script src="/pc/js/scripts.js"></script>
+        <script src="/pc/js/getua.js"></script>
+        <script src="/pc/js/slide-tips.js"></script>
+        <script src="/pc/js/cnc-index.js"></script>
+        <script src="/pc/js/public.js"></script>
+    </body>
+
+</html>
