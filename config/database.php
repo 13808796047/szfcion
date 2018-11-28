@@ -14,14 +14,14 @@ return [
     'type' => 'mysql',
     // 服务器地址
     'hostname' => '127.0.0.1',
-    // 'hostname' => '172.31.239.26',
+
     // 数据库名
-    'database' => 'fcc',
+    'database' => 'ssion',
     // 用户名
     'username' => 'root',
     // 密码
     'password' => 'root',
-    // 'password' => 'DYfqoMncCLhr3U^j',
+
     // 端口
     'hostport' => '',
     // 连接dsn

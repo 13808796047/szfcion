@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'title'                 =>  '数字翡翠',						// 项目名称
+	'title'                 =>  '',						// 项目名称
 	'site'					=>	true,										// 是否开启官网
 	'appurl'				=>	'https://fir.im/s7lu',											// APP下载链接
 	'reg_auto_down'			=>	false,										// 注册后自动下载
@@ -313,12 +313,7 @@ return [
 		'verify_temp_id'	=>	263695,										// 模板编号，需要是数字
 
 		// 选填云通讯
-		'account_sid'		=>	'8aaf070864b08c210164b69700b6049d',			// 下面六行属于云通讯的
-		'auth_token'		=>	'73647468a4254ca590c5e1cb668eafb5',
-		'rest_url'			=>	'https://app.cloopen.com:8883',
-		'appid'				=>	'8aaf070864b08c210164b697011d04a4',
-		'apptoken'			=>	'2b1d7f6a9a5457d34914c815294052cb',
-		'version'			=>	'2013-12-26',
+
 
 		// 选填阿里云
 		/*'aliyun'			=>	[											// 下面属于阿里云的
@@ -498,30 +493,10 @@ return [
 			'max'				=>	10000,
 		],
 		'alipay'				=>	[										// 支付宝
-			'use_sandbox'		=>	false,
-			'partner'			=>	'2088131875998074',
-			'app_id'			=>	'2018071960704530',
-			'sign_type'			=>	'RSA2',
-			'ali_public_key'	=>	Env::get('root_path') . '/payment/alipay/ali_public_key.pem',
-			'rsa_private_key'	=>	Env::get('root_path') . '/payment/alipay/rsa_private_key.pem',
-			'limit_pay'			=>	[],
-			'notify_url'		=>	'http://www.fccion.com/payment/notify/alipay.html',
-			'return_url'		=>	'http://www.fccion.com/payment/callback.html',
-			'return_raw'		=>	false,
+
 		],
 		'wechat'				=>	[										// 微信
-			'use_sandbox'		=>	false,
-			'app_id'			=>	'wx4a1c060ba4980954',
-			'mch_id'			=>	1509478611,
-			'md5_key'			=>	'xn5m4NXWEvuSeuFAvZGVggTDtNCwatFT',
-			'app_cert_pem'		=>	Env::get('root_path') . '/payment/wechat/apiclient_cert.pem',
-			'app_key_pem'		=>	Env::get('root_path') . '/payment/wechat/apiclient_key.pem',
-			'sign_type'			=>	'MD5',
-			'limit_pay'			=>	[],
-			'fee_type'			=>	'CNY',
-			'notify_url'		=>	'http://www.fccion.com/payment/notify/wechat.html',
-			'redirect_url'		=>	'http://www.fccion.com/payment/callback.html',
-			'return_raw'		=>	false,
+
 		],
 	],
 
